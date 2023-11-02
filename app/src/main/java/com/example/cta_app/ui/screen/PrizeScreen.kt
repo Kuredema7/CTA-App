@@ -1,0 +1,134 @@
+package com.example.cta_app.ui.screen
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Cancel
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.cta_app.R
+import com.example.cta_app.ui.component.ActionButtonsLayout
+import com.example.cta_app.ui.component.HeadlineDisplay
+import com.example.cta_app.utils.DecimalFormatter
+
+@Composable
+fun PrizeScreen(modifier: Modifier = Modifier) {
+    var itemTypeInput by rememberSaveable { mutableStateOf("") }
+    var itemPriceInput by rememberSaveable { mutableStateOf("") }
+    val decimalFormatter = DecimalFormatter()
+
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column {
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_headline)))
+            HeadlineDisplay(
+                text = stringResource(R.string.create_new_prize)
+            )
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_extra_large)))
+            PrizeForm(
+                itemTypeInput = itemTypeInput,
+                onItemTypeValueChange = { itemTypeInput = it },
+                itemPriceInput = itemPriceInput,
+                onItePriceValueChange = { inputValue ->
+                    itemPriceInput = decimalFormatter.cleanup(inputValue)
+                },
+                onItemTypeInputCancel = { itemTypeInput = "" },
+                onItemPriceCancel = { itemPriceInput = "" }
+            )
+        }
+        Row(
+            modifier = Modifier.weight(1f, false)
+        ) {
+            ActionButtonsLayout()
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun PrizeForm(
+    modifier: Modifier = Modifier,
+    itemTypeInput: String,
+    onItemTypeValueChange: (String) -> Unit,
+    itemPriceInput: String,
+    onItePriceValueChange: (String) -> Unit,
+    onItemTypeInputCancel: () -> Unit,
+    onItemPriceCancel: () -> Unit
+) {
+    Column(
+        modifier = modifier
+    ) {
+        OutlinedTextField(
+            value = itemTypeInput,
+            onValueChange = onItemTypeValueChange,
+            label = { Text(text = stringResource(R.string.item_type)) },
+            placeholder = { Text(text = stringResource(R.string.item_type)) },
+            singleLine = true,
+            trailingIcon = {
+                if (itemTypeInput.isNotEmpty()) {
+                    IconButton(onClick = onItemTypeInputCancel) {
+                        Icon(
+                            Icons.Outlined.Cancel,
+                            contentDescription = "Clear Icon"
+                        )
+                    }
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
+        OutlinedTextField(
+            value = itemPriceInput,
+            onValueChange = onItePriceValueChange,
+            label = { Text(text = stringResource(R.string.item_price)) },
+            placeholder = { Text(text = stringResource(R.string.price)) },
+            singleLine = true,
+            trailingIcon = {
+                if (itemPriceInput.isNotEmpty()) {
+                    IconButton(onClick = onItemPriceCancel) {
+                        Icon(
+                            Icons.Outlined.Cancel,
+                            contentDescription = "Clear Icon"
+                        )
+                    }
+                }
+            },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Decimal
+            ),
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PrizeScreenPreview() {
+    PrizeScreen(
+        modifier = Modifier
+            .fillMaxHeight()
+            .padding(dimensionResource(R.dimen.padding_medium))
+    )
+}
