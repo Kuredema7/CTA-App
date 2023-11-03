@@ -20,6 +20,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,6 +28,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -52,12 +54,16 @@ fun MonthlyScreen(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Column {
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_headline)))
+            Spacer(
+                modifier = Modifier.height(dimensionResource(R.dimen.padding_headline))
+            )
             HeadlineDisplay(
                 text = stringResource(R.string.create_new_monthly_data),
                 modifier = Modifier.fillMaxWidth()
             )
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_extra_large)))
+            Spacer(
+                modifier = Modifier.height(dimensionResource(R.dimen.padding_extra_large))
+            )
             MonthlyForm(
                 itemQuantity = itemQuantity,
                 onItemQuantityChange = { inputValue ->
@@ -120,6 +126,7 @@ private fun MonthlyForm(
             label = { Text(text = stringResource(R.string.quantity)) },
             placeholder = { Text(text = stringResource(R.string.item_quantity)) },
             singleLine = true,
+            shape = MaterialTheme.shapes.small,
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = MaterialTheme.colorScheme.outlineVariant,
                 unfocusedIndicatorColor = MaterialTheme.colorScheme.outlineVariant,
@@ -141,15 +148,17 @@ private fun MonthlyForm(
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
-        OutlinedTextField(
+        TextField(
             value = itemDescription,
             onValueChange = onItemDescriptionChange,
             label = { Text(text = stringResource(R.string.item_description)) },
             placeholder = { Text(text = stringResource(R.string.item_description)) },
+            shape = MaterialTheme.shapes.small,
             colors = TextFieldDefaults.textFieldColors(
-                focusedIndicatorColor = MaterialTheme.colorScheme.outlineVariant,
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.outlineVariant,
-                containerColor = Transparent
+                focusedIndicatorColor = Transparent,
+                unfocusedIndicatorColor = Transparent,
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                disabledIndicatorColor = Transparent
             ),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             trailingIcon = {
@@ -189,6 +198,7 @@ private fun MediaItemDropdownMenu(
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
             },
+            shape = MaterialTheme.shapes.small,
             colors = ExposedDropdownMenuDefaults.textFieldColors(
                 focusedIndicatorColor = MaterialTheme.colorScheme.outlineVariant,
                 unfocusedIndicatorColor = MaterialTheme.colorScheme.outlineVariant,
