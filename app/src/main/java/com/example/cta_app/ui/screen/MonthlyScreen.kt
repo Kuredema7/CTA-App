@@ -45,6 +45,7 @@ fun MonthlyScreen(modifier: Modifier = Modifier) {
 
     val options = listOf("Item 2", "Item 3", "Item 4", "Item 5")
     var isExpanded by rememberSaveable { mutableStateOf(false) }
+    var selectedMediaItem by rememberSaveable { mutableStateOf("Select item") }
 
     Column(
         modifier = modifier,
@@ -72,6 +73,8 @@ fun MonthlyScreen(modifier: Modifier = Modifier) {
                 onExpendedChange = { isExpanded = !isExpanded },
                 options = options,
                 onDismissRequest = { isExpanded = false },
+                selectedMediaItem = selectedMediaItem,
+                setSelectedMediaItem = { selectedMediaItem = it }
             )
         }
         Row(
@@ -95,7 +98,9 @@ private fun MonthlyForm(
     isExpanded: Boolean,
     onExpendedChange: (Boolean) -> Unit,
     options: List<String>,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    selectedMediaItem: String,
+    setSelectedMediaItem: (String) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -104,7 +109,9 @@ private fun MonthlyForm(
             isExpanded = isExpanded,
             onExpendedChange = onExpendedChange,
             options = options,
-            onDismissRequest = onDismissRequest
+            onDismissRequest = onDismissRequest,
+            selectedMediaItem = selectedMediaItem,
+            setSelectedMediaItem = setSelectedMediaItem
         )
         Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
         OutlinedTextField(
@@ -166,16 +173,16 @@ private fun MediaItemDropdownMenu(
     isExpanded: Boolean,
     onExpendedChange: (Boolean) -> Unit,
     options: List<String>,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    selectedMediaItem: String,
+    setSelectedMediaItem: (String) -> Unit
 ) {
-    var selectedOptionText by rememberSaveable { mutableStateOf("Select item") }
-
     ExposedDropdownMenuBox(
         expanded = isExpanded,
         onExpandedChange = onExpendedChange
     ) {
         OutlinedTextField(
-            value = selectedOptionText,
+            value = selectedMediaItem,
             onValueChange = {},
             readOnly = true,
             label = { Text(text = stringResource(R.string.select_item)) },
@@ -199,7 +206,7 @@ private fun MediaItemDropdownMenu(
                 DropdownMenuItem(
                     text = { Text(text = option) },
                     onClick = {
-                        selectedOptionText = option
+                        setSelectedMediaItem(option)
                         onExpendedChange(isExpanded)
                     },
                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
