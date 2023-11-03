@@ -45,7 +45,6 @@ fun MonthlyScreen(modifier: Modifier = Modifier) {
 
     val options = listOf("Item 2", "Item 3", "Item 4", "Item 5")
     var isExpanded by rememberSaveable { mutableStateOf(false) }
-    var selectedOptionText by rememberSaveable { mutableStateOf("Select item") }
 
     Column(
         modifier = modifier,
@@ -72,9 +71,7 @@ fun MonthlyScreen(modifier: Modifier = Modifier) {
                 isExpanded = isExpanded,
                 onExpendedChange = { isExpanded = !isExpanded },
                 options = options,
-                selectedOptionText = selectedOptionText,
                 onDismissRequest = { isExpanded = false },
-                onOptionClick = { selectedOptionText = it }
             )
         }
         Row(
@@ -97,21 +94,17 @@ private fun MonthlyForm(
     onItemDescriptionCancel: () -> Unit,
     isExpanded: Boolean,
     onExpendedChange: (Boolean) -> Unit,
-    selectedOptionText: String,
     options: List<String>,
-    onDismissRequest: () -> Unit,
-    onOptionClick: (String) -> Unit
-    ) {
+    onDismissRequest: () -> Unit
+) {
     Column(
         modifier = modifier
     ) {
         MediaItemDropdownMenu(
             isExpanded = isExpanded,
             onExpendedChange = onExpendedChange,
-            selectedOptionText = selectedOptionText,
             options = options,
-            onDismissRequest = onDismissRequest,
-            onOptionClick = onOptionClick
+            onDismissRequest = onDismissRequest
         )
         Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
         OutlinedTextField(
@@ -172,11 +165,11 @@ private fun MonthlyForm(
 private fun MediaItemDropdownMenu(
     isExpanded: Boolean,
     onExpendedChange: (Boolean) -> Unit,
-    selectedOptionText: String,
     options: List<String>,
-    onDismissRequest: () -> Unit,
-    onOptionClick: (String) -> Unit
+    onDismissRequest: () -> Unit
 ) {
+    var selectedOptionText by rememberSaveable { mutableStateOf("Select item") }
+
     ExposedDropdownMenuBox(
         expanded = isExpanded,
         onExpandedChange = onExpendedChange
@@ -185,7 +178,7 @@ private fun MediaItemDropdownMenu(
             value = selectedOptionText,
             onValueChange = {},
             readOnly = true,
-            label = { Text(text = selectedOptionText) },
+            label = { Text(text = stringResource(R.string.select_item)) },
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
             },
@@ -205,7 +198,10 @@ private fun MediaItemDropdownMenu(
             options.forEach { option ->
                 DropdownMenuItem(
                     text = { Text(text = option) },
-                    onClick = { onOptionClick },
+                    onClick = {
+                        selectedOptionText = option
+                        onExpendedChange(isExpanded)
+                    },
                     contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                 )
             }
