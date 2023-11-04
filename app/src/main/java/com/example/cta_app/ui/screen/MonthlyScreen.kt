@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.cta_app.R
 import com.example.cta_app.ui.component.ActionButtonsLayout
 import com.example.cta_app.ui.component.HeadlineDisplay
+import com.example.cta_app.ui.theme.CTAAppTheme
 import com.example.cta_app.utils.NumberValidator
 
 @Composable
@@ -227,9 +228,11 @@ private fun MediaItemDropdownMenu(
 @Preview(showBackground = true)
 @Composable
 private fun MonthlyScreenPreview() {
-    MonthlyScreen(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(dimensionResource(R.dimen.padding_medium))
-    )
+    CTAAppTheme {
+        MonthlyScreen(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(dimensionResource(R.dimen.padding_medium))
+        )
+    }
 }

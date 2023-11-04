@@ -14,6 +14,7 @@ import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.cta_app.R
 import com.example.cta_app.ui.component.ActionButtonsLayout
 import com.example.cta_app.ui.component.HeadlineDisplay
+import com.example.cta_app.ui.theme.CTAAppTheme
 import com.example.cta_app.utils.DecimalFormatter
 
 @Composable
@@ -86,6 +88,7 @@ private fun PrizeForm(
             label = { Text(text = stringResource(R.string.item_type)) },
             placeholder = { Text(text = stringResource(R.string.item_type)) },
             singleLine = true,
+            shape = MaterialTheme.shapes.medium,
             trailingIcon = {
                 if (itemTypeInput.isNotEmpty()) {
                     IconButton(onClick = onItemTypeInputCancel) {
@@ -105,6 +108,7 @@ private fun PrizeForm(
             label = { Text(text = stringResource(R.string.item_price)) },
             placeholder = { Text(text = stringResource(R.string.price)) },
             singleLine = true,
+            shape = MaterialTheme.shapes.medium,
             trailingIcon = {
                 if (itemPriceInput.isNotEmpty()) {
                     IconButton(onClick = onItemPriceCancel) {
@@ -126,9 +130,11 @@ private fun PrizeForm(
 @Preview(showBackground = true)
 @Composable
 private fun PrizeScreenPreview() {
-    PrizeScreen(
-        modifier = Modifier
-            .fillMaxHeight()
-            .padding(dimensionResource(R.dimen.padding_medium))
-    )
+    CTAAppTheme {
+        PrizeScreen(
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(dimensionResource(R.dimen.padding_medium))
+        )
+    }
 }
