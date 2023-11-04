@@ -16,7 +16,10 @@ import com.example.cta_app.ui.component.ButtonNavigator
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onPrizeClick: () -> Unit,
+    onMonthlyClick: () -> Unit,
+    onReportClick: () -> Unit
 ) {
     Column(
         modifier = modifier,
@@ -25,21 +28,21 @@ fun HomeScreen(
     ) {
         ButtonNavigator(
             screenName = "Prize Registration",
-            onClick = {},
+            onClick = onPrizeClick,
             shape = MaterialTheme.shapes.small,
             modifier = Modifier
                 .fillMaxWidth()
         )
         ButtonNavigator(
             screenName = "Monthly Registration",
-            onClick = {},
+            onClick = onMonthlyClick,
             shape = MaterialTheme.shapes.small,
             modifier = Modifier
                 .fillMaxWidth()
         )
         ButtonNavigator(
             screenName = "Report View",
-            onClick = {},
+            onClick = onReportClick,
             shape = MaterialTheme.shapes.small,
             modifier = Modifier
                 .fillMaxWidth()
@@ -54,6 +57,9 @@ fun HomeScreenPreview() {
     HomeScreen(
         modifier = Modifier
             .fillMaxSize()
-            .padding(dimensionResource(R.dimen.padding_medium))
+            .padding(dimensionResource(R.dimen.padding_medium)),
+        onPrizeClick = {},
+        onMonthlyClick = {},
+        onReportClick = {}
     )
 }
