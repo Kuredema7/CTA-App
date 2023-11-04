@@ -28,7 +28,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -37,14 +36,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.cta_app.R
 import com.example.cta_app.ui.component.ActionButtonsLayout
 import com.example.cta_app.ui.component.HeadlineDisplay
-import com.example.cta_app.utils.DecimalFormatter
+import com.example.cta_app.utils.NumberValidator
 
 @Composable
 fun MonthlyScreen(modifier: Modifier = Modifier) {
     var itemDescription by rememberSaveable { mutableStateOf("") }
     var itemQuantity by rememberSaveable { mutableStateOf("") }
-    val decimalFormatter = DecimalFormatter()
-
+    val numberValidator = NumberValidator()
     val options = listOf("Item 2", "Item 3", "Item 4", "Item 5")
     var isExpanded by rememberSaveable { mutableStateOf(false) }
     var selectedMediaItem by rememberSaveable { mutableStateOf("Select item") }
@@ -67,7 +65,7 @@ fun MonthlyScreen(modifier: Modifier = Modifier) {
             MonthlyForm(
                 itemQuantity = itemQuantity,
                 onItemQuantityChange = { inputValue ->
-                    itemQuantity = decimalFormatter.cleanup(inputValue)
+                    itemQuantity = numberValidator.validateNumberInput(inputValue)
                 },
                 onItemQuantityCancel = { itemQuantity = "" },
                 itemDescription = itemDescription,
@@ -126,10 +124,10 @@ private fun MonthlyForm(
             label = { Text(text = stringResource(R.string.quantity)) },
             placeholder = { Text(text = stringResource(R.string.item_quantity)) },
             singleLine = true,
-            shape = MaterialTheme.shapes.small,
+            shape = MaterialTheme.shapes.medium,
             colors = TextFieldDefaults.textFieldColors(
-                focusedIndicatorColor = MaterialTheme.colorScheme.outlineVariant,
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.outlineVariant,
+                focusedIndicatorColor = MaterialTheme.colorScheme.onSurface,
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.onSurface,
                 containerColor = Transparent
             ),
             keyboardOptions = KeyboardOptions.Default.copy(
@@ -153,11 +151,11 @@ private fun MonthlyForm(
             onValueChange = onItemDescriptionChange,
             label = { Text(text = stringResource(R.string.item_description)) },
             placeholder = { Text(text = stringResource(R.string.item_description)) },
-            shape = MaterialTheme.shapes.small,
+            shape = MaterialTheme.shapes.medium,
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Transparent,
                 unfocusedIndicatorColor = Transparent,
-                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                 disabledIndicatorColor = Transparent
             ),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
@@ -198,10 +196,10 @@ private fun MediaItemDropdownMenu(
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
             },
-            shape = MaterialTheme.shapes.small,
+            shape = MaterialTheme.shapes.medium,
             colors = ExposedDropdownMenuDefaults.textFieldColors(
-                focusedIndicatorColor = MaterialTheme.colorScheme.outlineVariant,
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.outlineVariant,
+                focusedIndicatorColor = MaterialTheme.colorScheme.onSurface,
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.onSurface,
                 containerColor = Transparent
             ),
             modifier = Modifier
