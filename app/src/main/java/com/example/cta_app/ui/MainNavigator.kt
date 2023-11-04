@@ -1,7 +1,10 @@
 package com.example.cta_app.ui
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeGestures
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -43,14 +46,15 @@ private fun MainNavigator(
             MonthlyScreen(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(dimensionResource(R.dimen.padding_medium))
+                    .padding(dimensionResource(R.dimen.padding_small))
             )
         }
         composable(route = NavRoutes.PRIZE_SCREEN.name) {
             PrizeScreen(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(dimensionResource(R.dimen.padding_medium))
+                    .windowInsetsPadding(WindowInsets.safeGestures)
+                    .padding(dimensionResource(R.dimen.padding_small))
             )
         }
     }

@@ -3,10 +3,13 @@ package com.example.cta_app.ui.screen
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeGestures
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Cancel
@@ -79,7 +82,11 @@ fun MonthlyScreen(modifier: Modifier = Modifier) {
                 setSelectedMediaItem = { selectedMediaItem = it }
             )
         }
-        ActionButtonsLayout(modifier = Modifier.align(Alignment.BottomEnd))
+        ActionButtonsLayout(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .windowInsetsPadding(WindowInsets.safeGestures)
+        )
     }
 }
 
