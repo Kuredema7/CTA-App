@@ -1,17 +1,12 @@
 package com.example.cta_app.ui.screen
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeGestures
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Cancel
@@ -31,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.res.dimensionResource
@@ -52,10 +48,7 @@ fun MonthlyScreen(modifier: Modifier = Modifier) {
     var isExpanded by rememberSaveable { mutableStateOf(false) }
     var selectedMediaItem by rememberSaveable { mutableStateOf("Select item") }
 
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
+    Box(modifier = modifier) {
         Column {
             Spacer(
                 modifier = Modifier.height(dimensionResource(R.dimen.padding_headline))
@@ -86,13 +79,7 @@ fun MonthlyScreen(modifier: Modifier = Modifier) {
                 setSelectedMediaItem = { selectedMediaItem = it }
             )
         }
-        Row(
-            modifier = Modifier
-                .weight(1f, false)
-                .windowInsetsPadding(WindowInsets.safeGestures)
-        ) {
-            ActionButtonsLayout()
-        }
+        ActionButtonsLayout(modifier = Modifier.align(Alignment.BottomEnd))
     }
 }
 
