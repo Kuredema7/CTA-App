@@ -1,5 +1,6 @@
 package com.example.cta_app.ui.screen
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -34,7 +35,7 @@ import com.example.cta_app.ui.theme.CTAAppTheme
 import com.example.cta_app.utils.DecimalFormatter
 
 @Composable
-fun PrizeScreen(modifier: Modifier = Modifier) {
+fun PrizeScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
     var itemTypeInput by rememberSaveable { mutableStateOf("") }
     var itemPriceInput by rememberSaveable { mutableStateOf("") }
     val decimalFormatter = DecimalFormatter()
@@ -43,7 +44,6 @@ fun PrizeScreen(modifier: Modifier = Modifier) {
         modifier = modifier
     ) {
         Column {
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_headline)))
             HeadlineDisplay(
                 text = stringResource(R.string.create_new_prize)
             )
@@ -60,6 +60,9 @@ fun PrizeScreen(modifier: Modifier = Modifier) {
             )
         }
         ActionButtonsLayout(modifier = Modifier.align(Alignment.BottomEnd))
+    }
+    BackHandler {
+        onBackClick()
     }
 }
 
@@ -129,7 +132,8 @@ private fun PrizeScreenPreview() {
         PrizeScreen(
             modifier = Modifier
                 .fillMaxHeight()
-                .padding(dimensionResource(R.dimen.padding_medium))
+                .padding(dimensionResource(R.dimen.padding_medium)),
+            onBackClick = {}
         )
     }
 }

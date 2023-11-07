@@ -1,5 +1,6 @@
 package com.example.cta_app.ui.screen
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -43,7 +44,7 @@ import com.example.cta_app.ui.theme.CTAAppTheme
 import com.example.cta_app.utils.NumberValidator
 
 @Composable
-fun MonthlyScreen(modifier: Modifier = Modifier) {
+fun MonthlyScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
     var itemDescription by rememberSaveable { mutableStateOf("") }
     var itemQuantity by rememberSaveable { mutableStateOf("") }
     val numberValidator = NumberValidator()
@@ -53,9 +54,6 @@ fun MonthlyScreen(modifier: Modifier = Modifier) {
 
     Box(modifier = modifier) {
         Column {
-            Spacer(
-                modifier = Modifier.height(dimensionResource(R.dimen.padding_headline))
-            )
             HeadlineDisplay(
                 text = stringResource(R.string.create_new_monthly_data),
                 modifier = Modifier.fillMaxWidth()
@@ -87,6 +85,9 @@ fun MonthlyScreen(modifier: Modifier = Modifier) {
                 .align(Alignment.BottomEnd)
                 .windowInsetsPadding(WindowInsets.safeGestures)
         )
+    }
+    BackHandler {
+        onBackClick()
     }
 }
 
@@ -232,7 +233,8 @@ private fun MonthlyScreenPreview() {
         MonthlyScreen(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(dimensionResource(R.dimen.padding_medium))
+                .padding(dimensionResource(R.dimen.padding_medium)),
+            onBackClick = {}
         )
     }
 }
