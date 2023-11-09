@@ -1,4 +1,4 @@
-package com.example.cta_app.ui
+package com.example.cta_app.ui.screen.navigator
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,12 +15,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -64,19 +63,17 @@ fun CTAAppBar(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CTAApp(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    mainNavigatorViewModel: MainNavigatorViewModel = viewModel()
 ) {
-    var canNavigateBack by rememberSaveable {
-        mutableStateOf(false)
-    }
-
+    val navigationUiState by mainNavigatorViewModel.uiState.collectAsState()
     Scaffold(
         topBar = {
             CTAAppBar(
-                canNavigateBack = canNavigateBack,
+                canNavigateBack = navigationUiState.canNavigate,
                 navigateUp = {
                     navController.navigateUp()
-                    canNavigateBack = false
+                    mainNavigatorViewModel.updateNavigationBackIcon(navController)
                 }
             )
         }
@@ -93,11 +90,11 @@ fun CTAApp(
                         .padding(dimensionResource(R.dimen.padding_medium)),
                     onPrizeClick = {
                         navController.navigate(NavRoutes.PRIZE_SCREEN.name)
-                        canNavigateBack = navController.previousBackStackEntry != null
+                        mainNavigatorViewModel.updateNavigationBackIcon(navController)
                     },
                     onMonthlyClick = {
                         navController.navigate(NavRoutes.MONTHLY_SCREEN.name)
-                        canNavigateBack = navController.previousBackStackEntry != null
+                        mainNavigatorViewModel.updateNavigationBackIcon(navController)
                     },
                     onReportClick = {}
                 )
@@ -113,7 +110,7 @@ fun CTAApp(
                         .windowInsetsPadding(WindowInsets.safeGestures),
                     onBackClick = {
                         navController.navigateUp()
-                        canNavigateBack = !canNavigateBack
+                        mainNavigatorViewModel.updateNavigationBackIcon(navController)
                     }
                 )
             }
@@ -128,7 +125,7 @@ fun CTAApp(
                         .windowInsetsPadding(WindowInsets.safeGestures),
                     onBackClick = {
                         navController.navigateUp()
-                        canNavigateBack = !canNavigateBack
+                        mainNavigatorViewModel.updateNavigationBackIcon(navController)
                     }
                 )
             }
