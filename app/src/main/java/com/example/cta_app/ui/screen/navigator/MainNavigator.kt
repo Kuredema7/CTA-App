@@ -1,12 +1,9 @@
 package com.example.cta_app.ui.screen.navigator
 
-import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeGestures
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -14,16 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.cta_app.R
-import com.example.cta_app.navigation.NavRoutes
-import com.example.cta_app.ui.composables.CTAAppBar
 import com.example.cta_app.ui.composables.CTABottomBar
 import com.example.cta_app.ui.screen.HomeScreen
-import com.example.cta_app.ui.screen.MonthlyScreen
-import com.example.cta_app.ui.screen.PrizeScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,8 +23,30 @@ fun CTAApp(
     mainNavigatorViewModel: MainNavigatorViewModel = viewModel()
 ) {
     val navigationUiState by mainNavigatorViewModel.uiState.collectAsState()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        HomeScreen(
+            onPrizeClick = { /*TODO*/ },
+            onMonthlyClick = { /*TODO*/ },
+            modifier = Modifier
+                .weight(1f)
+                .padding(dimensionResource(R.dimen.padding_medium))
+        ) {
 
-    Scaffold(
+        }
+        CTABottomBar(
+            navigationUiState = navigationUiState,
+            onClickItem = {
+                mainNavigatorViewModel.updateNavigationItemIndex(it)
+            }
+        )
+    }
+}
+
+/*
+Scaffold(
         topBar = {
             CTAAppBar(
                 canNavigateBack = navigationUiState.canNavigate,
@@ -102,4 +115,4 @@ fun CTAApp(
             }
         }
     }
-}
+ */
