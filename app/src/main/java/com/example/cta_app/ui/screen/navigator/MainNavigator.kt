@@ -5,15 +5,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeGestures
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -26,39 +19,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.cta_app.R
 import com.example.cta_app.navigation.NavRoutes
+import com.example.cta_app.ui.composables.CTAAppBar
+import com.example.cta_app.ui.composables.CTABottomBar
 import com.example.cta_app.ui.screen.HomeScreen
 import com.example.cta_app.ui.screen.MonthlyScreen
 import com.example.cta_app.ui.screen.PrizeScreen
-
-/**
- * Composable that displays the topBar and displays back button if back navigation is possible.
- */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CTAAppBar(
-    canNavigateBack: Boolean,
-    navigateUp: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    TopAppBar(
-        title = { },
-        colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background
-        ),
-        modifier = modifier,
-        navigationIcon = {
-            if (canNavigateBack) {
-                IconButton(onClick = navigateUp) {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = "Back icon",
-                        tint = MaterialTheme.colorScheme.onBackground
-                    )
-                }
-            }
-        }
-    )
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,6 +32,7 @@ fun CTAApp(
     mainNavigatorViewModel: MainNavigatorViewModel = viewModel()
 ) {
     val navigationUiState by mainNavigatorViewModel.uiState.collectAsState()
+
     Scaffold(
         topBar = {
             CTAAppBar(
@@ -76,6 +42,11 @@ fun CTAApp(
                     mainNavigatorViewModel.updateNavigationBackIcon(navController)
                 }
             )
+        },
+        bottomBar = {
+            CTABottomBar(navigationUiState = navigationUiState) { currentNavigationItemIndex ->
+                mainNavigatorViewModel.updateNavigationItemIndex(currentNavigationItemIndex)
+            }
         }
     ) { innerPadding ->
         NavHost(

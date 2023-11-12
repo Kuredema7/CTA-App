@@ -19,4 +19,12 @@ class MainNavigatorViewModel: ViewModel() {
             )
         }
     }
+
+    fun updateNavigationItemIndex(currentNavigationItemIndex: Int) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                selectedItemIndex = currentNavigationItemIndex
+            )
+        }
+    }
 }
