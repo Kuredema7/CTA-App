@@ -2,6 +2,7 @@ package com.example.cta_app.ui.screen.navigator
 
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
+import com.example.cta_app.navigation.Routes
 import com.example.cta_app.ui.state.NavigationUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,10 +21,10 @@ class MainNavigatorViewModel: ViewModel() {
         }
     }
 
-    fun updateNavigationItemIndex(currentNavigationItemIndex: Int) {
+    fun updateNavigationItem(currentNavigationItem: Routes) {
         _uiState.update { currentState ->
             currentState.copy(
-                selectedItemIndex = currentNavigationItemIndex
+                selectedItem = currentNavigationItem.name
             )
         }
     }

@@ -54,9 +54,13 @@ fun MonthlyScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
 
     Box(modifier = modifier) {
         Column {
+            Spacer(
+                modifier = Modifier.height(dimensionResource(R.dimen.padding_extra_large))
+            )
             HeadlineDisplay(
                 text = stringResource(R.string.create_new_monthly_data),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
             )
             Spacer(
                 modifier = Modifier.height(dimensionResource(R.dimen.padding_extra_large))
@@ -83,7 +87,6 @@ fun MonthlyScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
         ActionButtonsLayout(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .windowInsetsPadding(WindowInsets.safeGestures)
         )
     }
     BackHandler {

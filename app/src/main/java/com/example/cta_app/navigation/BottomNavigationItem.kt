@@ -11,17 +11,17 @@ import androidx.compose.material.icons.outlined.Dashboard
 object BottomNavigationItem {
     val navigationItemContentList = listOf(
         NavigationItem(
-            title = "Dashboard",
+            title = Routes.Dashboard,
             selectedIcon = Icons.Filled.Dashboard,
             unselectedIcon = Icons.Outlined.Dashboard
         ),
         NavigationItem(
-            title = "Monthly Stats",
+            title = Routes.MonthlyStats,
             selectedIcon = Icons.Filled.BarChart,
             unselectedIcon = Icons.Outlined.BarChart
         ),
         NavigationItem(
-            title = "Prize",
+            title = Routes.Prize,
             selectedIcon = Icons.Filled.AddBusiness,
             unselectedIcon = Icons.Outlined.AddBusiness
         )

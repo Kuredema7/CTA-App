@@ -7,31 +7,35 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.example.cta_app.navigation.BottomNavigationItem
+import androidx.compose.ui.Modifier
+import com.example.cta_app.navigation.NavigationItem
+import com.example.cta_app.navigation.Routes
 import com.example.cta_app.ui.state.NavigationUiState
 
 @Composable
 fun CTABottomBar(
     navigationUiState: NavigationUiState,
-    onClickItem: (Int) -> Unit
+    onItemPressed: (Routes) -> Unit,
+    navigationItemContentList: List<NavigationItem>,
+    modifier: Modifier = Modifier
 ) {
-    NavigationBar {
-        BottomNavigationItem.navigationItemContentList.forEachIndexed { currentNavigationItem, navigationItem ->
+    NavigationBar(modifier = modifier) {
+        navigationItemContentList.forEach { currentNavigationItem ->
             NavigationBarItem(
-                selected = navigationUiState.selectedItemIndex == currentNavigationItem,
-                onClick = { onClickItem(currentNavigationItem) },
-                label = { Text(text = navigationItem.title) },
+                selected = navigationUiState.selectedItem == currentNavigationItem.title.name,
+                onClick = { onItemPressed(currentNavigationItem.title) },
+                label = { Text(text = currentNavigationItem.title.name) },
                 colors = NavigationBarItemDefaults.colors(
                     indicatorColor = MaterialTheme.colorScheme.primaryContainer
                 ),
                 icon = {
                     Icon(
-                        imageVector = if (currentNavigationItem == navigationUiState.selectedItemIndex) {
-                            navigationItem.selectedIcon
+                        imageVector = if (navigationUiState.selectedItem == currentNavigationItem.title.name) {
+                            currentNavigationItem.selectedIcon
                         } else {
-                            navigationItem.unselectedIcon
+                            currentNavigationItem.unselectedIcon
                         },
-                        contentDescription = navigationItem.title
+                        contentDescription = currentNavigationItem.title.name
                     )
                 }
             )

@@ -1,9 +1,9 @@
 package com.example.cta_app.ui.screen.navigator
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -11,10 +11,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.cta_app.R
+import com.example.cta_app.navigation.BottomNavigationItem.navigationItemContentList
+import com.example.cta_app.navigation.Routes
 import com.example.cta_app.ui.composables.CTABottomBar
 import com.example.cta_app.ui.screen.HomeScreen
+import com.example.cta_app.ui.screen.MonthlyScreen
+import com.example.cta_app.ui.screen.PrizeScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,26 +29,53 @@ fun CTAApp(
     mainNavigatorViewModel: MainNavigatorViewModel = viewModel()
 ) {
     val navigationUiState by mainNavigatorViewModel.uiState.collectAsState()
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        HomeScreen(
-            onPrizeClick = { /*TODO*/ },
-            onMonthlyClick = { /*TODO*/ },
-            modifier = Modifier
-                .weight(1f)
-                .padding(dimensionResource(R.dimen.padding_medium))
-        ) {
 
+    Scaffold(
+        bottomBar = {
+            CTABottomBar(
+                navigationUiState = navigationUiState,
+                onItemPressed = {
+                    mainNavigatorViewModel.updateNavigationItem(it)
+                    navController.navigate(it.name)
+                },
+                navigationItemContentList = navigationItemContentList
+            )
         }
-        CTABottomBar(
-            navigationUiState = navigationUiState,
-            onClickItem = {
-                mainNavigatorViewModel.updateNavigationItemIndex(it)
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = Routes.Dashboard.name,
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            composable(route = Routes.Dashboard.name) {
+                HomeScreen(
+                    onPrizeClick = { /*TODO*/ },
+                    onMonthlyClick = { /*TODO*/ }
+                ) {
+
+                }
             }
-        )
+            composable(route = Routes.MonthlyStats.name) {
+                MonthlyScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(dimensionResource(R.dimen.padding_medium))
+                ) {
+
+                }
+            }
+            composable(route = Routes.Prize.name) {
+                PrizeScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(dimensionResource(R.dimen.padding_medium))
+                ) {
+
+                }
+            }
+        }
     }
+
 }
 
 /*
@@ -64,26 +97,26 @@ Scaffold(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = NavRoutes.HOME_SCREEN.name,
+            startDestination = Routes.Dashboard.name,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(route = NavRoutes.HOME_SCREEN.name) {
+            composable(route = Routes.Dashboard.name) {
                 HomeScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(dimensionResource(R.dimen.padding_medium)),
                     onPrizeClick = {
-                        navController.navigate(NavRoutes.PRIZE_SCREEN.name)
+                        navController.navigate(Routes.Prize.name)
                         mainNavigatorViewModel.updateNavigationBackIcon(navController)
                     },
                     onMonthlyClick = {
-                        navController.navigate(NavRoutes.MONTHLY_SCREEN.name)
+                        navController.navigate(Routes.MonthlyStats.name)
                         mainNavigatorViewModel.updateNavigationBackIcon(navController)
                     },
                     onReportClick = {}
                 )
             }
-            composable(route = NavRoutes.MONTHLY_SCREEN.name) {
+            composable(route = Routes.MonthlyStats.name) {
                 MonthlyScreen(
                     modifier = Modifier
                         .fillMaxSize()
@@ -98,7 +131,7 @@ Scaffold(
                     }
                 )
             }
-            composable(route = NavRoutes.PRIZE_SCREEN.name) {
+            composable(route = Routes.Prize.name) {
                 PrizeScreen(
                     modifier = Modifier
                         .fillMaxSize()
