@@ -44,6 +44,7 @@ fun PrizeScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
         modifier = modifier
     ) {
         Column {
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_extra_large)))
             HeadlineDisplay(
                 text = stringResource(R.string.create_new_prize)
             )
