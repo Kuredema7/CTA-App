@@ -8,6 +8,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import com.example.cta_app.navigation.NavigationItem
 import com.example.cta_app.navigation.Routes
 import com.example.cta_app.ui.state.NavigationUiState
@@ -22,20 +23,20 @@ fun CTABottomBar(
     NavigationBar(modifier = modifier) {
         navigationItemContentList.forEach { currentNavigationItem ->
             NavigationBarItem(
-                selected = navigationUiState.selectedItem == currentNavigationItem.title.name,
-                onClick = { onItemPressed(currentNavigationItem.title) },
-                label = { Text(text = currentNavigationItem.title.name) },
+                selected = navigationUiState.selectedItem == currentNavigationItem.screenName.name,
+                onClick = { onItemPressed(currentNavigationItem.screenName) },
+                label = { Text(text = stringResource(currentNavigationItem.screenName.title)) },
                 colors = NavigationBarItemDefaults.colors(
                     indicatorColor = MaterialTheme.colorScheme.primaryContainer
                 ),
                 icon = {
                     Icon(
-                        imageVector = if (navigationUiState.selectedItem == currentNavigationItem.title.name) {
+                        imageVector = if (navigationUiState.selectedItem == currentNavigationItem.screenName.name) {
                             currentNavigationItem.selectedIcon
                         } else {
                             currentNavigationItem.unselectedIcon
                         },
-                        contentDescription = currentNavigationItem.title.name
+                        contentDescription = currentNavigationItem.screenName.name
                     )
                 }
             )

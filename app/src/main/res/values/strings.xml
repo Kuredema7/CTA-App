@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">CTA-App</string>
+    <string name="monthly_stats_scree">Monthly Stats</string>
+    <string name="prize_screen">Prize</string>
+    <string name="dashboard_screen">Dashboard</string>
     <string name="create_new_monthly_data">Create new \nMonthly Data</string>
     <string name="create_new_prize">Create new Prize</string>
     <string name="item_type">Item Type</string>
