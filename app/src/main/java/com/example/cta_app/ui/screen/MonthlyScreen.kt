@@ -4,13 +4,10 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeGestures
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Cancel
@@ -75,7 +72,6 @@ fun MonthlyScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
                 onItemDescriptionChange = { inputValue ->
                     itemDescription = inputValue
                 },
-                onItemDescriptionCancel = { itemDescription = "" },
                 isExpanded = isExpanded,
                 onExpendedChange = { isExpanded = !isExpanded },
                 options = options,
@@ -103,7 +99,6 @@ private fun MonthlyForm(
     onItemQuantityCancel: () -> Unit,
     itemDescription: String,
     onItemDescriptionChange: (String) -> Unit,
-    onItemDescriptionCancel: () -> Unit,
     isExpanded: Boolean,
     onExpendedChange: (Boolean) -> Unit,
     options: List<String>,
@@ -154,26 +149,16 @@ private fun MonthlyForm(
         TextField(
             value = itemDescription,
             onValueChange = onItemDescriptionChange,
-            label = { Text(text = stringResource(R.string.item_description)) },
+            label = { Text(text = stringResource(R.string.item_description), color = MaterialTheme.colorScheme.onPrimaryContainer) },
             placeholder = { Text(text = stringResource(R.string.item_description)) },
             shape = MaterialTheme.shapes.medium,
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Transparent,
                 unfocusedIndicatorColor = Transparent,
-                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
                 disabledIndicatorColor = Transparent
             ),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            trailingIcon = {
-                if (itemDescription.isNotEmpty()) {
-                    IconButton(onClick = onItemDescriptionCancel) {
-                        Icon(
-                            Icons.Outlined.Cancel,
-                            contentDescription = "Clear Icon"
-                        )
-                    }
-                }
-            },
             modifier = Modifier.fillMaxWidth()
         )
     }
