@@ -2,11 +2,11 @@ package com.example.cta_app.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddBusiness
-import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Dashboard
+import androidx.compose.material.icons.filled.InsertChart
 import androidx.compose.material.icons.outlined.AddBusiness
-import androidx.compose.material.icons.outlined.BarChart
 import androidx.compose.material.icons.outlined.Dashboard
+import androidx.compose.material.icons.outlined.InsertChart
 
 object BottomNavigationItem {
     val navigationItemContentList = listOf(
@@ -17,8 +17,8 @@ object BottomNavigationItem {
         ),
         NavigationItem(
             title = Routes.MonthlyStats,
-            selectedIcon = Icons.Filled.BarChart,
-            unselectedIcon = Icons.Outlined.BarChart
+            selectedIcon = Icons.Filled.InsertChart,
+            unselectedIcon = Icons.Outlined.InsertChart
         ),
         NavigationItem(
             title = Routes.Prize,
