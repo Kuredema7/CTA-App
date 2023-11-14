@@ -1,4 +1,4 @@
-package com.example.cta_app.ui.screen
+package com.example.cta_app.ui.screen.prize
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box

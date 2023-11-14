@@ -20,7 +20,7 @@ import com.example.cta_app.navigation.Routes
 import com.example.cta_app.ui.composables.CTABottomBar
 import com.example.cta_app.ui.screen.HomeScreen
 import com.example.cta_app.ui.screen.MonthlyScreen
-import com.example.cta_app.ui.screen.PrizeScreen
+import com.example.cta_app.ui.screen.prize.PrizeDetailsScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,87 +68,12 @@ fun CTAApp(
                 }
             }
             composable(route = Routes.Prize.name) {
-                PrizeScreen(
+                PrizeDetailsScreen(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(dimensionResource(R.dimen.padding_medium))
-                ) {
-
-                }
+                )
             }
         }
     }
 
 }
-
-/*
-Scaffold(
-        topBar = {
-            CTAAppBar(
-                canNavigateBack = navigationUiState.canNavigate,
-                navigateUp = {
-                    navController.navigateUp()
-                    mainNavigatorViewModel.updateNavigationBackIcon(navController)
-                }
-            )
-        },
-        bottomBar = {
-            CTABottomBar(navigationUiState = navigationUiState) { currentNavigationItemIndex ->
-                mainNavigatorViewModel.updateNavigationItemIndex(currentNavigationItemIndex)
-            }
-        }
-    ) { innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = Routes.Dashboard.name,
-            modifier = Modifier.padding(innerPadding)
-        ) {
-            composable(route = Routes.Dashboard.name) {
-                HomeScreen(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(dimensionResource(R.dimen.padding_medium)),
-                    onPrizeClick = {
-                        navController.navigate(Routes.Prize.name)
-                        mainNavigatorViewModel.updateNavigationBackIcon(navController)
-                    },
-                    onMonthlyClick = {
-                        navController.navigate(Routes.MonthlyStats.name)
-                        mainNavigatorViewModel.updateNavigationBackIcon(navController)
-                    },
-                    onReportClick = {}
-                )
-            }
-            composable(route = Routes.MonthlyStats.name) {
-                MonthlyScreen(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(
-                            start = dimensionResource(R.dimen.padding_medium),
-                            end = dimensionResource(R.dimen.padding_medium)
-                        )
-                        .windowInsetsPadding(WindowInsets.safeGestures),
-                    onBackClick = {
-                        navController.navigateUp()
-                        mainNavigatorViewModel.updateNavigationBackIcon(navController)
-                    }
-                )
-            }
-            composable(route = Routes.Prize.name) {
-                PrizeScreen(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(
-                            start = dimensionResource(R.dimen.padding_medium),
-                            end = dimensionResource(R.dimen.padding_medium)
-                        )
-                        .windowInsetsPadding(WindowInsets.safeGestures),
-                    onBackClick = {
-                        navController.navigateUp()
-                        mainNavigatorViewModel.updateNavigationBackIcon(navController)
-                    }
-                )
-            }
-        }
-    }
- */

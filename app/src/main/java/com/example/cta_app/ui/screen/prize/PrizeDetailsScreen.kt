@@ -1,4 +1,4 @@
-package com.example.cta_app.ui.screen
+package com.example.cta_app.ui.screen.prize
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -32,7 +32,7 @@ fun PrizeDetailsScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .background(MaterialTheme.colorScheme.surface)
                 .padding(top = dimensionResource(R.dimen.padding_medium))
         ) {
             items(prizes) { prize ->
@@ -55,7 +55,7 @@ private fun PrizeDetailsCard(
 ) {
     Card(
         modifier = modifier,
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surface)
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.secondaryContainer)
     ) {
         Row(
             modifier = Modifier
@@ -73,7 +73,7 @@ private fun PrizeDetailsCard(
                 Text(
                     text = stringResource(R.string.media_type_label),
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.outlineVariant
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
                 Text(
                     text = prize.mediaType,
@@ -86,7 +86,7 @@ private fun PrizeDetailsCard(
                 Text(
                     text = stringResource(R.string.media_price_label),
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.outlineVariant
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
                 Text(
                     text = stringResource(R.string.media_price, prize.mediaPrice),
