@@ -1,6 +1,7 @@
 package com.example.cta_app.ui.screen.prize
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -68,7 +69,8 @@ private fun PrizeDetailsCard(
         ) {
             Column(
                 modifier = Modifier.weight(1f),
-                horizontalAlignment = Alignment.Start
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_extra_small))
             ) {
                 Text(
                     text = stringResource(R.string.media_type_label),
@@ -81,7 +83,8 @@ private fun PrizeDetailsCard(
                 )
             }
             Column(
-                horizontalAlignment = Alignment.Start
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_extra_small))
             ) {
                 Text(
                     text = stringResource(R.string.media_price_label),
