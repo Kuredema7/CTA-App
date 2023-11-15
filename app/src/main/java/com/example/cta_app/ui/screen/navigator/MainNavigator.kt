@@ -21,6 +21,7 @@ import com.example.cta_app.ui.composables.CTABottomBar
 import com.example.cta_app.ui.screen.HomeScreen
 import com.example.cta_app.ui.screen.MonthlyScreen
 import com.example.cta_app.ui.screen.prize.PrizeDetailsScreen
+import com.example.cta_app.ui.screen.prize.PrizeScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,13 +60,12 @@ fun CTAApp(
                 }
             }
             composable(route = Routes.MonthlyStats.name) {
-                MonthlyScreen(
+                PrizeScreen(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(dimensionResource(R.dimen.padding_medium))
-                ) {
-
-                }
+                        .padding(dimensionResource(R.dimen.padding_medium)),
+                    onBackClick = {}
+                )
             }
             composable(route = Routes.Prize.name) {
                 PrizeDetailsScreen(

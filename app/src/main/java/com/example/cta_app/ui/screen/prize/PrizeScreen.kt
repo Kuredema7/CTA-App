@@ -18,27 +18,27 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.cta_app.R
 import com.example.cta_app.ui.component.ActionButtonsLayout
 import com.example.cta_app.ui.component.HeadlineDisplay
 import com.example.cta_app.ui.theme.CTAAppTheme
-import com.example.cta_app.utils.DecimalFormatter
 
 @Composable
-fun PrizeScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
-    var itemTypeInput by rememberSaveable { mutableStateOf("") }
-    var itemPriceInput by rememberSaveable { mutableStateOf("") }
-    val decimalFormatter = DecimalFormatter()
+fun PrizeScreen(
+    modifier: Modifier = Modifier,
+    onBackClick: () -> Unit,
+    prizeScreenViewModel: PrizeScreenViewModel = viewModel()
+) {
+    val prizeScreenUiState by prizeScreenViewModel.uiState.collectAsState()
 
     Box(
         modifier = modifier
@@ -50,14 +50,12 @@ fun PrizeScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
             )
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_extra_large)))
             PrizeForm(
-                itemTypeInput = itemTypeInput,
-                onItemTypeValueChange = { itemTypeInput = it },
-                itemPriceInput = itemPriceInput,
-                onItePriceValueChange = { inputValue ->
-                    itemPriceInput = decimalFormatter.cleanup(inputValue)
-                },
-                onItemTypeInputCancel = { itemTypeInput = "" },
-                onItemPriceCancel = { itemPriceInput = "" }
+                mediaType = prizeScreenUiState.mediaType,
+                onMediaTypeChange = { prizeScreenViewModel.onMediaTypeChange(it) },
+                mediaPrice = prizeScreenUiState.mediaPrice,
+                onMediaPriceChange = { prizeScreenViewModel.onMediaPriceChange(it) },
+                onMediaTypeCancel = { prizeScreenViewModel.onMediaTypeCancel() },
+                onMediaPriceCancel = { prizeScreenViewModel.onMediaPriceCancel() }
             )
         }
         ActionButtonsLayout(modifier = Modifier.align(Alignment.BottomEnd))
@@ -71,26 +69,26 @@ fun PrizeScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
 @Composable
 private fun PrizeForm(
     modifier: Modifier = Modifier,
-    itemTypeInput: String,
-    onItemTypeValueChange: (String) -> Unit,
-    itemPriceInput: String,
-    onItePriceValueChange: (String) -> Unit,
-    onItemTypeInputCancel: () -> Unit,
-    onItemPriceCancel: () -> Unit
+    mediaType: String,
+    onMediaTypeChange: (String) -> Unit,
+    mediaPrice: String,
+    onMediaPriceChange: (String) -> Unit,
+    onMediaTypeCancel: () -> Unit,
+    onMediaPriceCancel: () -> Unit
 ) {
     Column(
         modifier = modifier
     ) {
         OutlinedTextField(
-            value = itemTypeInput,
-            onValueChange = onItemTypeValueChange,
+            value = mediaType,
+            onValueChange = onMediaTypeChange,
             label = { Text(text = stringResource(R.string.item_type)) },
             placeholder = { Text(text = stringResource(R.string.item_type)) },
             singleLine = true,
             shape = MaterialTheme.shapes.medium,
             trailingIcon = {
-                if (itemTypeInput.isNotEmpty()) {
-                    IconButton(onClick = onItemTypeInputCancel) {
+                if (mediaType.isNotEmpty()) {
+                    IconButton(onClick = onMediaTypeCancel) {
                         Icon(
                             Icons.Outlined.Cancel,
                             contentDescription = "Clear Icon"
@@ -102,15 +100,15 @@ private fun PrizeForm(
         )
         Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
         OutlinedTextField(
-            value = itemPriceInput,
-            onValueChange = onItePriceValueChange,
+            value = mediaPrice,
+            onValueChange = onMediaPriceChange,
             label = { Text(text = stringResource(R.string.item_price)) },
             placeholder = { Text(text = stringResource(R.string.price)) },
             singleLine = true,
             shape = MaterialTheme.shapes.medium,
             trailingIcon = {
-                if (itemPriceInput.isNotEmpty()) {
-                    IconButton(onClick = onItemPriceCancel) {
+                if (mediaPrice.isNotEmpty()) {
+                    IconButton(onClick = onMediaPriceCancel) {
                         Icon(
                             Icons.Outlined.Cancel,
                             contentDescription = "Clear Icon"
