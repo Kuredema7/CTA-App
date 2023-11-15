@@ -20,31 +20,40 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.cta_app.R
 import com.example.cta_app.data.Prize
-import com.example.cta_app.data.local.LocalPrizeDataProvider.prizes
 import com.example.cta_app.ui.theme.CTAAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrizeDetailsScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    prizeDetailsViewModel: PrizeDetailsViewModel = viewModel()
 ) {
+    val prizeDetailsUiState by prizeDetailsViewModel.uiState.collectAsState()
+
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TextField(
-            value = "",
-            onValueChange = {},
+            value = prizeDetailsUiState.searchText,
+            onValueChange = {
+                prizeDetailsViewModel.onSearchTextChange(it)
+                prizeDetailsViewModel.filterByMediaType(it)
+            },
             placeholder = { Text(text = "Search media...") },
             shape = MaterialTheme.shapes.extraLarge,
+            singleLine = true,
             leadingIcon = {
                 Icon(
                     Icons.Outlined.Search,
@@ -71,7 +80,7 @@ fun PrizeDetailsScreen(
                 .background(MaterialTheme.colorScheme.surface)
                 .padding(top = dimensionResource(R.dimen.padding_medium))
         ) {
-            items(prizes) { prize ->
+            items(prizeDetailsUiState.prizesList) { prize ->
                 PrizeDetailsCard(
                     prize = prize,
                     modifier = Modifier.padding(
