@@ -1,29 +1,23 @@
 package com.example.cta_app.navigation
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddBusiness
-import androidx.compose.material.icons.filled.Dashboard
-import androidx.compose.material.icons.filled.InsertChart
-import androidx.compose.material.icons.outlined.AddBusiness
-import androidx.compose.material.icons.outlined.Dashboard
-import androidx.compose.material.icons.outlined.InsertChart
+import com.example.cta_app.R
 
 object BottomNavigationItem {
     val navigationItemContentList = listOf(
         NavigationItem(
             screenName = Routes.Dashboard,
-            selectedIcon = Icons.Filled.Dashboard,
-            unselectedIcon = Icons.Outlined.Dashboard
+            selectedIcon = R.drawable.dashboard,
+            unselectedIcon = R.drawable.outline_dashboard
         ),
         NavigationItem(
             screenName = Routes.MonthlyStats,
-            selectedIcon = Icons.Filled.InsertChart,
-            unselectedIcon = Icons.Outlined.InsertChart
+            selectedIcon = R.drawable.monthly_stats,
+            unselectedIcon = R.drawable.outline_monthly_stats
         ),
         NavigationItem(
             screenName = Routes.Prize,
-            selectedIcon = Icons.Filled.AddBusiness,
-            unselectedIcon = Icons.Outlined.AddBusiness
+            selectedIcon = R.drawable.prize,
+            unselectedIcon = R.drawable.outline_prize
         )
     )
 }

@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.example.cta_app.navigation.NavigationItem
 import com.example.cta_app.navigation.Routes
@@ -43,10 +44,10 @@ fun CTABottomBar(
                 ),
                 icon = {
                     Icon(
-                        imageVector = if (navigationUiState.selectedItem == currentNavigationItem.screenName.name) {
-                            currentNavigationItem.selectedIcon
+                        painter = if (navigationUiState.selectedItem == currentNavigationItem.screenName.name) {
+                            painterResource(currentNavigationItem.selectedIcon)
                         } else {
-                            currentNavigationItem.unselectedIcon
+                            painterResource(currentNavigationItem.unselectedIcon)
                         },
                         contentDescription = currentNavigationItem.screenName.name
                     )
