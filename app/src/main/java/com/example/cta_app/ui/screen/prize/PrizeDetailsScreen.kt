@@ -82,6 +82,7 @@ fun PrizeDetailsScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SearchBar(
     prizeDetailsUiState: PrizeDetailsUiState,
@@ -139,7 +140,7 @@ private fun PrizeDetailsCard(
             ) {
                 Text(
                     text = stringResource(R.string.media_type_label),
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
                 Text(
