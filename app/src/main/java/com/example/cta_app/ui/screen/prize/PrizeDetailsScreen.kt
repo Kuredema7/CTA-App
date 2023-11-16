@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.cta_app.ui.screen.prize
 
 import androidx.compose.foundation.background
@@ -6,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -33,7 +36,6 @@ import com.example.cta_app.R
 import com.example.cta_app.data.Prize
 import com.example.cta_app.ui.theme.CTAAppTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrizeDetailsScreen(
     modifier: Modifier = Modifier,
@@ -45,27 +47,12 @@ fun PrizeDetailsScreen(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TextField(
-            value = prizeDetailsUiState.searchText,
-            onValueChange = {
+        SearchBar(
+            prizeDetailsUiState = prizeDetailsUiState,
+            onSearchValueChange = {
                 prizeDetailsViewModel.onSearchTextChange(it)
                 prizeDetailsViewModel.filterByMediaType(it)
             },
-            placeholder = { Text(text = "Search media...") },
-            shape = MaterialTheme.shapes.extraLarge,
-            singleLine = true,
-            leadingIcon = {
-                Icon(
-                    Icons.Outlined.Search,
-                    contentDescription = stringResource(R.string.search_icon)
-                )
-            },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                disabledIndicatorColor = Transparent,
-                focusedIndicatorColor = Transparent,
-                unfocusedIndicatorColor = Transparent
-            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -83,10 +70,12 @@ fun PrizeDetailsScreen(
             items(prizeDetailsUiState.prizesList) { prize ->
                 PrizeDetailsCard(
                     prize = prize,
-                    modifier = Modifier.padding(
-                        horizontal = dimensionResource(R.dimen.padding_medium),
-                        vertical = dimensionResource(R.dimen.padding_small)
-                    )
+                    modifier = Modifier
+                        .padding(
+                            horizontal = dimensionResource(R.dimen.padding_medium),
+                            vertical = dimensionResource(R.dimen.padding_small)
+                        )
+                        .heightIn(min = dimensionResource(R.dimen.search_bar_min_height))
                 )
             }
         }
@@ -94,9 +83,41 @@ fun PrizeDetailsScreen(
 }
 
 @Composable
+private fun SearchBar(
+    prizeDetailsUiState: PrizeDetailsUiState,
+    onSearchValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    TextField(
+        value = prizeDetailsUiState.searchText,
+        onValueChange = onSearchValueChange,
+        placeholder = { Text(text = stringResource(R.string.search_media)) },
+        shape = MaterialTheme.shapes.extraLarge,
+        singleLine = true,
+        leadingIcon = {
+            Icon(
+                Icons.Outlined.Search,
+                contentDescription = stringResource(R.string.search_icon),
+                modifier = Modifier
+                    .padding(
+                        horizontal = dimensionResource(R.dimen.padding_medium)
+                    )
+            )
+        },
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            disabledIndicatorColor = Transparent,
+            focusedIndicatorColor = Transparent,
+            unfocusedIndicatorColor = Transparent
+        ),
+        modifier = modifier
+    )
+}
+
+@Composable
 private fun PrizeDetailsCard(
     modifier: Modifier = Modifier,
-    prize: Prize = Prize("ViewFinity S9 15'", 459.99)
+    prize: Prize
 ) {
     Card(
         modifier = modifier,

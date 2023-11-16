@@ -16,4 +16,5 @@
     <string name="media_price">$%.2f</string>
     <string name="media_price_label">Price</string>
     <string name="search_icon">Search Icon</string>
+    <string name="search_media">Search media…</string>
 </resources>

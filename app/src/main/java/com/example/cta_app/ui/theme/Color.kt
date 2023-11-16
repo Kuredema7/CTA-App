@@ -2,7 +2,7 @@ package com.example.cta_app.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val md_theme_light_primary = Color(0xFF00677F)
+val md_theme_light_primary = Color(0xFF006177)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFFB6EBFF)
 val md_theme_light_onPrimaryContainer = Color(0xFF001F28)
