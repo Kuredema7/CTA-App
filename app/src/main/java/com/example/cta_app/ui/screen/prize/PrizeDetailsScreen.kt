@@ -11,10 +11,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,6 +32,7 @@ import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.cta_app.R
 import com.example.cta_app.data.Prize
@@ -40,7 +44,6 @@ fun PrizeDetailsScreen(
     prizeDetailsViewModel: PrizeDetailsViewModel = viewModel()
 ) {
     val prizeDetailsUiState by prizeDetailsViewModel.uiState.collectAsState()
-
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -78,6 +81,25 @@ fun PrizeDetailsScreen(
             }
         }
     }
+}
+
+@Composable
+fun AddPrizeExtendedFAB(
+    onClick: () -> Unit
+) {
+    ExtendedFloatingActionButton(
+        onClick = onClick,
+        icon = {
+            Icon(
+                Icons.Filled.Add,
+                contentDescription = "Add Icon"
+            )
+        },
+        text = { Text(text = "New prize") },
+        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(
+            defaultElevation = 1.dp
+        )
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

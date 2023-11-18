@@ -28,5 +28,17 @@ object LocalPrizeDataProvider {
             mediaType = "Fiber Opt.32",
             mediaPrice = 20.99
         ),
+        Prize(
+            mediaType = "Sony 390LT",
+            mediaPrice = 550.99
+        ),
+        Prize(
+            mediaType = "K380 LogiTech",
+            mediaPrice = 350.99
+        ),
+        Prize(
+            mediaType = "Nacy 67EJ32",
+            mediaPrice = 65.00
+        ),
     )
 }

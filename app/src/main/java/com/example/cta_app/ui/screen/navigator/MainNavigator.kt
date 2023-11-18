@@ -1,5 +1,6 @@
 package com.example.cta_app.ui.screen.navigator
 
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,6 +21,7 @@ import com.example.cta_app.navigation.Routes
 import com.example.cta_app.ui.composables.CTABottomBar
 import com.example.cta_app.ui.screen.HomeScreen
 import com.example.cta_app.ui.screen.MonthlyScreen
+import com.example.cta_app.ui.screen.prize.AddPrizeExtendedFAB
 import com.example.cta_app.ui.screen.prize.PrizeDetailsScreen
 import com.example.cta_app.ui.screen.prize.PrizeScreen
 
@@ -41,6 +43,16 @@ fun CTAApp(
                 },
                 navigationItemContentList = navigationItemContentList
             )
+        },
+        floatingActionButton = {
+            when (navigationUiState.selectedItem) {
+                Routes.PrizeDetails.name -> {
+                    AddPrizeExtendedFAB {
+                        navController.navigate(Routes.Prize.name)
+                        //mainNavigatorViewModel.updateNavigationItem(Routes.Prize)
+                    }
+                }
+            }
         }
     ) { innerPadding ->
         NavHost(
@@ -48,7 +60,15 @@ fun CTAApp(
             startDestination = Routes.Dashboard.name,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(route = Routes.Dashboard.name) {
+            composable(
+                route = Routes.Dashboard.name,
+                enterTransition = {
+                    slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right)
+                },
+                exitTransition = {
+                    slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left)
+                }
+            ) {
                 HomeScreen(
                     onPrizeClick = { /*TODO*/ },
                     onMonthlyClick = { /*TODO*/ },
@@ -59,7 +79,53 @@ fun CTAApp(
 
                 }
             }
-            composable(route = Routes.MonthlyStats.name) {
+            composable(
+                route = Routes.MonthlyStats.name,
+                enterTransition = {
+                    if (initialState.destination.route == Routes.PrizeDetails.name) {
+                        slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right)
+                    } else {
+                        slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left)
+                    }
+                },
+                exitTransition = {
+                    if (targetState.destination.route == Routes.PrizeDetails.name) {
+                        slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left)
+                    } else {
+                        slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right)
+                    }
+                }
+            ) {
+                MonthlyScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(dimensionResource(R.dimen.padding_medium)),
+                    onBackClick = {}
+                )
+            }
+            composable(
+                route = Routes.PrizeDetails.name,
+                enterTransition = {
+                    slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left)
+                },
+                exitTransition = {
+                    slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right)
+                }
+            ) {
+                PrizeDetailsScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                )
+            }
+            composable(
+                route = Routes.Prize.name,
+                enterTransition = {
+                    slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left)
+                },
+                exitTransition = {
+                    slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right)
+                }
+            ) {
                 PrizeScreen(
                     modifier = Modifier
                         .fillMaxSize()
@@ -67,13 +133,6 @@ fun CTAApp(
                     onBackClick = {}
                 )
             }
-            composable(route = Routes.Prize.name) {
-                PrizeDetailsScreen(
-                    modifier = Modifier
-                        .fillMaxSize()
-                )
-            }
         }
     }
-
 }

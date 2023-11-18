@@ -15,7 +15,7 @@ object BottomNavigationItem {
             unselectedIcon = R.drawable.outline_monthly_stats
         ),
         NavigationItem(
-            screenName = Routes.Prize,
+            screenName = Routes.PrizeDetails,
             selectedIcon = R.drawable.prize,
             unselectedIcon = R.drawable.outline_prize
         )
