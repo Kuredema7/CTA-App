@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.example.cta_app.ui.screen.prize
 
 import androidx.compose.foundation.background
