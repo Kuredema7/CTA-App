@@ -28,4 +28,24 @@ class MainNavigatorViewModel: ViewModel() {
             )
         }
     }
+
+    fun updateScreen(currentNavigationItem: String) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                selectedItem = currentNavigationItem,
+                isShowingHomepage = false
+            )
+        }
+    }
+
+    fun updateScreenHome(
+        isShowingHomepage: Boolean
+    ) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                isShowingHomepage = isShowingHomepage
+            )
+        }
+    }
+
 }

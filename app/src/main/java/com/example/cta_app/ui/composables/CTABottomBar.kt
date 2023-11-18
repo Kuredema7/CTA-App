@@ -44,42 +44,44 @@ fun CTABottomBar(
     CompositionLocalProvider(
         LocalRippleTheme provides ClearRippleTheme
     ) {
-        NavigationBar(modifier = modifier) {
-            navigationItemContentList.forEach { currentNavigationItem ->
-                val selectedItem =
-                    navigationUiState.selectedItem == currentNavigationItem.screenName.name
-                NavigationBarItem(
-                    selected = selectedItem,
-                    onClick = { if (!selectedItem) onItemPressed(currentNavigationItem.screenName) },
-                    label = {
-                        Text(
-                            text = stringResource(currentNavigationItem.screenName.title),
-                            style = MaterialTheme.typography.labelMedium
-                        )
-                    },
-                    alwaysShowLabel = selectedItem,
-                    colors = NavigationBarItemDefaults.colors(
-                        indicatorColor = MaterialTheme
-                            .colorScheme
-                            .surfaceColorAtElevation(
-                                LocalAbsoluteTonalElevation.current
-                            ),
-                        selectedIconColor = MaterialTheme.colorScheme.primary,
-                        selectedTextColor = MaterialTheme.colorScheme.primary,
-                        unselectedIconColor = MaterialTheme.colorScheme.outline,
-                        unselectedTextColor = MaterialTheme.colorScheme.outline
-                    ),
-                    icon = {
-                        Icon(
-                            painter = if (navigationUiState.selectedItem == currentNavigationItem.screenName.name) {
-                                painterResource(currentNavigationItem.selectedIcon)
-                            } else {
-                                painterResource(currentNavigationItem.unselectedIcon)
-                            },
-                            contentDescription = currentNavigationItem.screenName.name
-                        )
-                    }
-                )
+        if(navigationUiState.isShowingHomepage) {
+            NavigationBar(modifier = modifier) {
+                navigationItemContentList.forEach { currentNavigationItem ->
+                    val selectedItem =
+                        navigationUiState.selectedItem == currentNavigationItem.screenName.name
+                    NavigationBarItem(
+                        selected = selectedItem,
+                        onClick = { if (!selectedItem) onItemPressed(currentNavigationItem.screenName) },
+                        label = {
+                            Text(
+                                text = stringResource(currentNavigationItem.screenName.title),
+                                style = MaterialTheme.typography.labelMedium
+                            )
+                        },
+                        alwaysShowLabel = selectedItem,
+                        colors = NavigationBarItemDefaults.colors(
+                            indicatorColor = MaterialTheme
+                                .colorScheme
+                                .surfaceColorAtElevation(
+                                    LocalAbsoluteTonalElevation.current
+                                ),
+                            selectedIconColor = MaterialTheme.colorScheme.primary,
+                            selectedTextColor = MaterialTheme.colorScheme.primary,
+                            unselectedIconColor = MaterialTheme.colorScheme.outline,
+                            unselectedTextColor = MaterialTheme.colorScheme.outline
+                        ),
+                        icon = {
+                            Icon(
+                                painter = if (navigationUiState.selectedItem == currentNavigationItem.screenName.name) {
+                                    painterResource(currentNavigationItem.selectedIcon)
+                                } else {
+                                    painterResource(currentNavigationItem.unselectedIcon)
+                                },
+                                contentDescription = currentNavigationItem.screenName.name
+                            )
+                        }
+                    )
+                }
             }
         }
     }

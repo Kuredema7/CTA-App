@@ -1,5 +1,6 @@
 package com.example.cta_app.ui.screen.navigator
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -48,8 +49,11 @@ fun CTAApp(
             when (navigationUiState.selectedItem) {
                 Routes.PrizeDetails.name -> {
                     AddPrizeExtendedFAB {
-                        navController.navigate(Routes.Prize.name)
+                        val goToPrizeScreen = Routes.Prize.name
                         //mainNavigatorViewModel.updateNavigationItem(Routes.Prize)
+                        navController.navigate(goToPrizeScreen)
+                        Log.d("NavigationRoute", navController.currentDestination.toString())
+                        mainNavigatorViewModel.updateScreen(goToPrizeScreen)
                     }
                 }
             }
@@ -120,17 +124,20 @@ fun CTAApp(
             composable(
                 route = Routes.Prize.name,
                 enterTransition = {
-                    slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left)
+                    slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right)
                 },
                 exitTransition = {
-                    slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right)
+                    slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left)
                 }
             ) {
                 PrizeScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(dimensionResource(R.dimen.padding_medium)),
-                    onBackClick = {}
+                    onBackClick = {
+                        navController.popBackStack()
+                        mainNavigatorViewModel.updateScreenHome(isShowingHomepage = true)
+                    }
                 )
             }
         }
