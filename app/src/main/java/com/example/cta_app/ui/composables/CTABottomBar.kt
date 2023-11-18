@@ -50,7 +50,7 @@ fun CTABottomBar(
                     navigationUiState.selectedItem == currentNavigationItem.screenName.name
                 NavigationBarItem(
                     selected = selectedItem,
-                    onClick = { onItemPressed(currentNavigationItem.screenName) },
+                    onClick = { if (!selectedItem) onItemPressed(currentNavigationItem.screenName) },
                     label = {
                         Text(
                             text = stringResource(currentNavigationItem.screenName.title),
