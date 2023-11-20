@@ -15,10 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
 import com.example.cta_app.ui.navigation.NavItems
 import com.example.cta_app.ui.navigation.Screen
+import com.example.cta_app.ui.screen.main.MainScreenUiState
 
 object ClearRippleEffect: RippleTheme {
     @Composable
@@ -36,7 +35,7 @@ object ClearRippleEffect: RippleTheme {
 
 @Composable
 fun BottomNavigationBar(
-    currentDestination: NavDestination?,
+    mainScreenUiState: MainScreenUiState,
     onNavigateClick: (Screen) -> Unit
 ) {
     CompositionLocalProvider(
@@ -44,8 +43,7 @@ fun BottomNavigationBar(
     ) {
         NavigationBar {
             NavItems.items.forEach { screen ->
-                val selectedScreen =
-                    currentDestination?.hierarchy?.any { it.route == screen.route } == true
+                val selectedScreen = mainScreenUiState.selectedItem == screen.route
 
                 NavigationBarItem(
                     selected = selectedScreen,

@@ -18,4 +18,14 @@ class MainScreenViewModel: ViewModel() {
             )
         }
     }
+
+    fun updateCurrentScreen(currentScreen: Screen, isShowingHomepage: Boolean) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                selectedItem = currentScreen.route,
+                isShowingHomepage = isShowingHomepage
+            )
+        }
+    }
+
 }
