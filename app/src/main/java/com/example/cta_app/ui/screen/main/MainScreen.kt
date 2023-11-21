@@ -1,6 +1,5 @@
 package com.example.cta_app.ui.screen.main
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
@@ -15,8 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.cta_app.R
 import com.example.cta_app.ui.composables.BottomNavigationBar
 import com.example.cta_app.ui.navigation.Screen
@@ -29,7 +26,6 @@ import com.example.cta_app.ui.screen.prize.PrizeScreen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    navController: NavHostController = rememberNavController(),
     mainScreenViewModel: MainScreenViewModel = viewModel()
 ) {
     val mainScreenUiState by mainScreenViewModel.uiState.collectAsState()
@@ -58,10 +54,6 @@ fun MainScreen(
             }
         }
     ) { innerPadding ->
-
-        BackHandler {
-            navController.popBackStack()
-        }
 
         AnimatedContent(
             targetState = mainScreenUiState.selectedItem,
@@ -105,7 +97,7 @@ fun MainScreen(
                             .fillMaxSize()
                             .padding(dimensionResource(R.dimen.padding_medium))
                     ) {
-                        navController.popBackStack()
+
                     }
                 }
 
