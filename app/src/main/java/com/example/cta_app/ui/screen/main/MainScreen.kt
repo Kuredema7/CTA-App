@@ -2,6 +2,7 @@ package com.example.cta_app.ui.screen.main
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +20,6 @@ import com.example.cta_app.ui.composables.BottomNavigationBar
 import com.example.cta_app.ui.navigation.Screen
 import com.example.cta_app.ui.screen.HomeScreen
 import com.example.cta_app.ui.screen.MonthlyScreen
-import com.example.cta_app.ui.screen.prize.AddPrizeExtendedFAB
 import com.example.cta_app.ui.screen.prize.PrizeDetailsScreen
 import com.example.cta_app.ui.screen.prize.PrizeScreen
 
@@ -40,18 +40,6 @@ fun MainScreen(
                     }
                 )
             }
-        },
-        floatingActionButton = {
-            when (mainScreenUiState.selectedItem) {
-                Screen.Prize.PrizeDetails.route -> {
-                    AddPrizeExtendedFAB {
-                        mainScreenViewModel.updateCurrentScreen(
-                            Screen.Prize.PrizeEntry,
-                            isShowingHomepage = false
-                        )
-                    }
-                }
-            }
         }
     ) { innerPadding ->
 
@@ -70,8 +58,13 @@ fun MainScreen(
                             slideOutHorizontally { -it })
                     }
 
-                    else -> {
+                    Screen.Prize.PrizeDetails.route -> {
                         slideInHorizontally { it }.togetherWith(
+                            slideOutHorizontally { -it })
+                    }
+
+                    else -> {
+                        slideInVertically { it }.togetherWith(
                             slideOutHorizontally { -it })
                     }
                 }

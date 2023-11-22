@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Search
@@ -20,12 +21,15 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Transparent
@@ -38,46 +42,61 @@ import com.example.cta_app.R
 import com.example.cta_app.data.Prize
 import com.example.cta_app.ui.theme.CTAAppTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrizeDetailsScreen(
     modifier: Modifier = Modifier,
     prizeDetailsViewModel: PrizeDetailsViewModel = viewModel()
 ) {
     val prizeDetailsUiState by prizeDetailsViewModel.uiState.collectAsState()
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        SearchBar(
-            prizeDetailsUiState = prizeDetailsUiState,
-            onSearchValueChange = {
-                prizeDetailsViewModel.onSearchTextChange(it)
-                prizeDetailsViewModel.filterByMediaType(it)
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = dimensionResource(R.dimen.padding_medium),
-                    end = dimensionResource(R.dimen.padding_medium),
-                    top = dimensionResource(R.dimen.padding_medium)
-                )
-        )
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.surface)
-                .padding(top = dimensionResource(R.dimen.padding_medium))
-        ) {
-            items(prizeDetailsUiState.prizesList) { prize ->
-                PrizeDetailsCard(
-                    prize = prize,
-                    modifier = Modifier
-                        .padding(
-                            horizontal = dimensionResource(R.dimen.padding_medium),
-                            vertical = dimensionResource(R.dimen.padding_small)
-                        )
-                        .heightIn(min = dimensionResource(R.dimen.search_bar_min_height))
-                )
+    val lazyListState = rememberLazyListState()
+    val isExpanded by remember {
+        derivedStateOf {
+            lazyListState.firstVisibleItemIndex == 0
+        }
+    }
+
+    Scaffold(
+        floatingActionButton = {
+            AddPrizeExtendedFAB(
+                onClick = { /*TODO*/ },
+                isExpanded = isExpanded
+            )
+        }
+    ) { innerPadding ->
+        Column(modifier = modifier) {
+            SearchBar(
+                prizeDetailsUiState = prizeDetailsUiState,
+                onSearchValueChange = {
+                    prizeDetailsViewModel.onSearchTextChange(it)
+                    prizeDetailsViewModel.filterByMediaType(it)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = dimensionResource(R.dimen.padding_medium),
+                        end = dimensionResource(R.dimen.padding_medium),
+                        top = dimensionResource(R.dimen.padding_medium)
+                    )
+            )
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.surface)
+                    .padding(innerPadding),
+                state = lazyListState
+            ) {
+                items(prizeDetailsUiState.prizesList) { prize ->
+                    PrizeDetailsCard(
+                        prize = prize,
+                        modifier = Modifier
+                            .padding(
+                                horizontal = dimensionResource(R.dimen.padding_medium),
+                                vertical = dimensionResource(R.dimen.padding_small)
+                            )
+                            .heightIn(min = dimensionResource(R.dimen.search_bar_min_height))
+                    )
+                }
             }
         }
     }
@@ -85,7 +104,8 @@ fun PrizeDetailsScreen(
 
 @Composable
 fun AddPrizeExtendedFAB(
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    isExpanded: Boolean
 ) {
     ExtendedFloatingActionButton(
         onClick = onClick,
@@ -95,6 +115,7 @@ fun AddPrizeExtendedFAB(
                 contentDescription = "Add Icon"
             )
         },
+        expanded = isExpanded,
         text = { Text(text = "New prize") },
         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(
             defaultElevation = 1.dp
