@@ -7,16 +7,20 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.cta_app.R
 import com.example.cta_app.ui.composables.BottomNavigationBar
+import com.example.cta_app.ui.composables.ExtendedFAB
 import com.example.cta_app.ui.navigation.Screen
 import com.example.cta_app.ui.screen.HomeScreen
 import com.example.cta_app.ui.screen.MonthlyScreen
@@ -29,6 +33,12 @@ fun MainScreen(
     mainScreenViewModel: MainScreenViewModel = viewModel()
 ) {
     val mainScreenUiState by mainScreenViewModel.uiState.collectAsState()
+    val lazyListState = rememberLazyListState()
+    val isExpanded by remember {
+        derivedStateOf {
+            lazyListState.firstVisibleItemIndex == 0
+        }
+    }
 
     Scaffold(
         bottomBar = {
@@ -40,11 +50,30 @@ fun MainScreen(
                     }
                 )
             }
+        },
+        floatingActionButton = {
+            when (mainScreenUiState.selectedScreen) {
+                Screen.Stats.MonthlyStats.route -> {
+                    ExtendedFAB(
+                        text = "New stats",
+                        onClick = { /*TODO*/ },
+                        isExpanded = isExpanded
+                    )
+                }
+
+                Screen.Prize.PrizeDetails.route -> {
+                    ExtendedFAB(
+                        text = "New prize",
+                        onClick = { /*TODO*/ },
+                        isExpanded = isExpanded
+                    )
+                }
+            }
         }
     ) { innerPadding ->
 
         AnimatedContent(
-            targetState = mainScreenUiState.selectedItem,
+            targetState = mainScreenUiState.selectedScreen,
             label = "",
             transitionSpec = {
                 when (this.targetState) {
@@ -97,7 +126,9 @@ fun MainScreen(
                 Screen.Prize.PrizeDetails.route -> {
                     PrizeDetailsScreen(
                         modifier = Modifier
-                            .fillMaxSize()
+                            .fillMaxSize(),
+
+                        lazyListState = lazyListState,
                     )
                 }
 

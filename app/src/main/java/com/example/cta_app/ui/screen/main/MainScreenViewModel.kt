@@ -14,7 +14,7 @@ class MainScreenViewModel: ViewModel() {
     fun updateNavigationItem(currentScreen: Screen) {
         _uiState.update { currentState ->
             currentState.copy(
-                selectedItem = currentScreen.route
+                selectedScreen = currentScreen.route
             )
         }
     }
@@ -22,7 +22,7 @@ class MainScreenViewModel: ViewModel() {
     fun updateCurrentScreen(currentScreen: Screen, isShowingHomepage: Boolean) {
         _uiState.update { currentState ->
             currentState.copy(
-                selectedItem = currentScreen.route,
+                selectedScreen = currentScreen.route,
                 isShowingHomepage = isShowingHomepage
             )
         }

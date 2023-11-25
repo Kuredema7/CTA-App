@@ -43,7 +43,7 @@ fun BottomNavigationBar(
     ) {
         NavigationBar {
             NavItems.items.forEach { screen ->
-                val selectedScreen = mainScreenUiState.selectedItem == screen.route
+                val selectedScreen = mainScreenUiState.selectedScreen == screen.route
 
                 NavigationBarItem(
                     selected = selectedScreen,
