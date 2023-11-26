@@ -12,10 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Draw
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -23,27 +21,21 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.cta_app.R
-import com.example.cta_app.data.Prize
-import com.example.cta_app.ui.screen.prize.PrizeDetailsViewModel
+import com.example.cta_app.data.Stats
+import com.example.cta_app.data.local.LocalStatsDataProvider
 import com.example.cta_app.ui.theme.CTAAppTheme
 
 @Composable
 fun MonthlyDetailsScreen(
     modifier: Modifier = Modifier,
-    prizeDetailsViewModel: PrizeDetailsViewModel = viewModel(),
     lazyListState: LazyListState = rememberLazyListState()
 ) {
-    val prizeDetailsUiState by prizeDetailsViewModel.uiState.collectAsState()
-
     Column(modifier = modifier) {
         LazyColumn(
             modifier = Modifier
@@ -52,9 +44,9 @@ fun MonthlyDetailsScreen(
                 .padding(dimensionResource(R.dimen.padding_small)),
             state = lazyListState
         ) {
-            items(prizeDetailsUiState.prizesList) { prize ->
+            itemsIndexed(LocalStatsDataProvider.statsList) { index, stat ->
                 MonthlyDetailsCard(
-                    prize = prize,
+                    stats = stat,
                     modifier = Modifier
                         .padding(
                             horizontal = dimensionResource(R.dimen.padding_medium),
@@ -62,12 +54,14 @@ fun MonthlyDetailsScreen(
                         )
                         .heightIn(min = dimensionResource(R.dimen.search_bar_min_height))
                 )
-                Divider(
-                    modifier = Modifier
-                        .padding(
-                            horizontal = dimensionResource(R.dimen.padding_large)
-                        )
-                )
+                if (index < LocalStatsDataProvider.statsList.lastIndex) {
+                    Divider(
+                        modifier = Modifier
+                            .padding(
+                                horizontal = dimensionResource(R.dimen.padding_large)
+                            )
+                    )
+                }
             }
         }
     }
@@ -76,7 +70,7 @@ fun MonthlyDetailsScreen(
 @Composable
 private fun MonthlyDetailsCard(
     modifier: Modifier = Modifier,
-    prize: Prize
+    stats: Stats
 ) {
     Card(
         modifier = modifier,
@@ -101,8 +95,8 @@ private fun MonthlyDetailsCard(
                     )
             ) {
                 Icon(
-                    Icons.Outlined.Draw,
-                    contentDescription = null,
+                    stats.mediaIcon,
+                    contentDescription = stats.mediaType,
                     tint = MaterialTheme.colorScheme.onSecondaryContainer,
                     modifier = Modifier.align(Alignment.Center)
                 )
@@ -113,18 +107,18 @@ private fun MonthlyDetailsCard(
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_extra_small))
             ) {
                 Text(
-                    text = prize.mediaType,
+                    text = stats.mediaType,
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
-                    text = stringResource(R.string.monthly_entry_date),
+                    text = stats.date,
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onBackground
                 )
             }
             Column {
                 Text(
-                    text = stringResource(R.string.media_price, prize.mediaPrice),
+                    text = stringResource(R.string.media_price, stats.balance),
                     style = MaterialTheme.typography.titleMedium
                 )
             }

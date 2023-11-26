@@ -23,7 +23,7 @@ import com.example.cta_app.ui.composables.BottomNavigationBar
 import com.example.cta_app.ui.composables.ExtendedFAB
 import com.example.cta_app.ui.navigation.Screen
 import com.example.cta_app.ui.screen.HomeScreen
-import com.example.cta_app.ui.screen.MonthlyScreen
+import com.example.cta_app.ui.screen.MonthlyDetailsScreen
 import com.example.cta_app.ui.screen.prize.PrizeDetailsScreen
 import com.example.cta_app.ui.screen.prize.PrizeScreen
 
@@ -114,20 +114,18 @@ fun MainScreen(
                 }
 
                 Screen.Stats.MonthlyStats.route -> {
-                    MonthlyScreen(
+                    MonthlyDetailsScreen(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(dimensionResource(R.dimen.padding_medium))
-                    ) {
-
-                    }
+                            .padding(dimensionResource(R.dimen.padding_medium)),
+                        lazyListState = lazyListState
+                    )
                 }
 
                 Screen.Prize.PrizeDetails.route -> {
                     PrizeDetailsScreen(
                         modifier = Modifier
                             .fillMaxSize(),
-
                         lazyListState = lazyListState,
                     )
                 }
