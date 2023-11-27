@@ -1,8 +1,10 @@
 package com.example.cta_app.data.local
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Ballot
 import androidx.compose.material.icons.outlined.FactCheck
 import androidx.compose.material.icons.outlined.FormatPaint
+import androidx.compose.material.icons.outlined.HistoryEdu
 import androidx.compose.material.icons.outlined.ImagesearchRoller
 import androidx.compose.material.icons.outlined.PermMedia
 import androidx.compose.material.icons.outlined.PhotoAlbum
@@ -66,6 +68,18 @@ object LocalStatsDataProvider {
             date = currentDate,
             balance = 100.00,
             mediaIcon = Icons.Outlined.PhotoAlbum
+        ),
+        Stats(
+            mediaType = "Carapor E2DFZ",
+            date = currentDate,
+            balance = 1899.99,
+            mediaIcon = Icons.Outlined.HistoryEdu
+        ),
+        Stats(
+            mediaType = "Gemie Y9-EF32",
+            date = currentDate,
+            balance = 660.00,
+            mediaIcon = Icons.Outlined.Ballot
         ),
     )
 }
