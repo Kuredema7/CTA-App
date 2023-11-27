@@ -40,5 +40,13 @@ object LocalPrizeDataProvider {
             mediaType = "Nacy 67EJ32",
             mediaPrice = 65.00
         ),
+        Prize(
+            mediaType = "Carapor E2DFZ",
+            mediaPrice = 449.99
+        ),
+        Prize(
+            mediaType = "Gemie Y9-EF32",
+            mediaPrice = 95.00
+        ),
     )
 }
