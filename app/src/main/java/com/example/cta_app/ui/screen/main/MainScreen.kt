@@ -34,10 +34,16 @@ fun MainScreen(
     mainScreenViewModel: MainScreenViewModel = viewModel()
 ) {
     val mainScreenUiState by mainScreenViewModel.uiState.collectAsState()
-    val lazyListState = rememberLazyListState()
-    val isExpanded by remember {
+    val prizeListState = rememberLazyListState()
+    val monthlyStatsListState = rememberLazyListState()
+    val isPrizeFABExpanded by remember {
         derivedStateOf {
-            lazyListState.firstVisibleItemIndex == 0
+            prizeListState.firstVisibleItemIndex == 0
+        }
+    }
+    val isMonthlyStatsFABExpanded by remember {
+        derivedStateOf {
+            monthlyStatsListState.firstVisibleItemIndex == 0
         }
     }
 
@@ -58,7 +64,7 @@ fun MainScreen(
                     ExtendedFAB(
                         text = "New stats",
                         onClick = { /*TODO*/ },
-                        isExpanded = isExpanded
+                        isExpanded = isMonthlyStatsFABExpanded
                     )
                 }
 
@@ -66,7 +72,7 @@ fun MainScreen(
                     ExtendedFAB(
                         text = "New prize",
                         onClick = { /*TODO*/ },
-                        isExpanded = isExpanded
+                        isExpanded = isPrizeFABExpanded
                     )
                 }
             }
@@ -120,7 +126,7 @@ fun MainScreen(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(dimensionResource(R.dimen.padding_medium)),
-                        lazyListState = lazyListState
+                        lazyListState = monthlyStatsListState
                     )
                 }
 
@@ -128,7 +134,7 @@ fun MainScreen(
                     PrizeDetailsScreen(
                         modifier = Modifier
                             .fillMaxSize(),
-                        lazyListState = lazyListState,
+                        lazyListState = prizeListState,
                     )
                 }
 
