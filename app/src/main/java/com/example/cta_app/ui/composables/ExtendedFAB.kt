@@ -7,13 +7,15 @@ import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun ExtendedFAB(
     text: String,
     onClick: () -> Unit,
-    isExpanded: Boolean
+    isExpanded: Boolean,
+    modifier: Modifier = Modifier
 ) {
     ExtendedFloatingActionButton(
         onClick = onClick,
@@ -27,6 +29,7 @@ fun ExtendedFAB(
         text = { Text(text = text) },
         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(
             defaultElevation = 1.dp
-        )
+        ),
+        modifier = modifier
     )
 }
