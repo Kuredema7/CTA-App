@@ -53,17 +53,13 @@ fun PrizeDetailsScreen(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(
-                    start = dimensionResource(R.dimen.padding_medium),
-                    end = dimensionResource(R.dimen.padding_medium),
-                    top = dimensionResource(R.dimen.padding_medium)
-                )
+                .padding(dimensionResource(R.dimen.padding_medium))
         )
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surface)
-                .padding(dimensionResource(R.dimen.padding_small)),
+                .padding(dimensionResource(R.dimen.padding_medium)),
             state = lazyListState
         ) {
             items(prizeDetailsUiState.prizesList) { prize ->
@@ -72,7 +68,7 @@ fun PrizeDetailsScreen(
                     modifier = Modifier
                         .padding(
                             horizontal = dimensionResource(R.dimen.padding_medium),
-                            vertical = dimensionResource(R.dimen.padding_small)
+                            vertical = dimensionResource(R.dimen.padding_extra_medium)
                         )
                         .heightIn(min = dimensionResource(R.dimen.search_bar_min_height))
                 )
