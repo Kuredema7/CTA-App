@@ -55,24 +55,36 @@ fun PrizeDetailsScreen(
                 .fillMaxWidth()
                 .padding(dimensionResource(R.dimen.padding_medium))
         )
-        LazyColumn(
+        PrizeDetailsList(
+            prizeDetailsUiState = prizeDetailsUiState,
+            lazyListState = lazyListState,
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surface)
-                .padding(dimensionResource(R.dimen.padding_medium)),
-            state = lazyListState
-        ) {
-            items(prizeDetailsUiState.prizesList) { prize ->
-                PrizeDetailsCard(
-                    prize = prize,
-                    modifier = Modifier
-                        .padding(
-                            horizontal = dimensionResource(R.dimen.padding_medium),
-                            vertical = dimensionResource(R.dimen.padding_extra_medium)
-                        )
-                        .heightIn(min = dimensionResource(R.dimen.search_bar_min_height))
-                )
-            }
+        )
+    }
+}
+
+@Composable
+private fun PrizeDetailsList(
+    prizeDetailsUiState: PrizeDetailsUiState,
+    lazyListState: LazyListState,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        modifier = modifier,
+        state = lazyListState
+    ) {
+        items(prizeDetailsUiState.prizesList) { prize ->
+            PrizeDetailsCard(
+                prize = prize,
+                modifier = Modifier
+                    .padding(
+                        horizontal = dimensionResource(R.dimen.padding_medium),
+                        vertical = dimensionResource(R.dimen.padding_extra_medium)
+                    )
+                    .heightIn(min = dimensionResource(R.dimen.search_bar_min_height))
+            )
         }
     }
 }
