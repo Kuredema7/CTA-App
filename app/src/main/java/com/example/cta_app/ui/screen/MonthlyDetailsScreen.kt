@@ -40,8 +40,7 @@ fun MonthlyDetailsScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.surface)
-                .padding(dimensionResource(R.dimen.padding_small)),
+                .background(MaterialTheme.colorScheme.surface),
             state = lazyListState
         ) {
             itemsIndexed(LocalStatsDataProvider.statsList) { index, stat ->
@@ -49,7 +48,7 @@ fun MonthlyDetailsScreen(
                     stats = stat,
                     modifier = Modifier
                         .padding(
-                            horizontal = dimensionResource(R.dimen.padding_medium),
+                            horizontal = dimensionResource(R.dimen.padding_extra_medium),
                             vertical = dimensionResource(R.dimen.padding_small)
                         )
                         .heightIn(min = dimensionResource(R.dimen.search_bar_min_height))
