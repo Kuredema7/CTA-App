@@ -12,13 +12,15 @@ import androidx.compose.material.icons.outlined.TextSnippet
 import androidx.compose.material.icons.outlined.ViewCarousel
 import androidx.compose.material.icons.outlined.ViewSidebar
 import com.example.cta_app.data.Stats
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import org.joda.time.DateTime
+import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
 
 object LocalStatsDataProvider {
     private var currentDate: String =
-        SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(Date())
+        DateTime.now().toString(DateTimeFormat.mediumDate())
+    private var customDate: String =
+        LocalDate(2016, 1, 7).toString(DateTimeFormat.mediumDate())
 
     val statsList = listOf(
         Stats(
@@ -29,7 +31,7 @@ object LocalStatsDataProvider {
         ),
         Stats(
             mediaType = "Cooler TCL-32F",
-            date = currentDate,
+            date = customDate,
             balance = 659.99,
             mediaIcon = Icons.Outlined.ImagesearchRoller
         ),
@@ -47,7 +49,7 @@ object LocalStatsDataProvider {
         ),
         Stats(
             mediaType = "Monitor F34D",
-            date = currentDate,
+            date = customDate,
             balance = 980.00,
             mediaIcon = Icons.Outlined.FormatPaint
         ),
@@ -65,13 +67,13 @@ object LocalStatsDataProvider {
         ),
         Stats(
             mediaType = "Portal USB",
-            date = currentDate,
+            date = customDate,
             balance = 100.00,
             mediaIcon = Icons.Outlined.PhotoAlbum
         ),
         Stats(
             mediaType = "Carapor E2DFZ",
-            date = currentDate,
+            date = customDate,
             balance = 1899.99,
             mediaIcon = Icons.Outlined.HistoryEdu
         ),
