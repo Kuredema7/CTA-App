@@ -14,8 +14,8 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Sort
+import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -42,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.cta_app.R
 import com.example.cta_app.data.Prize
+import com.example.cta_app.data.local.LocalPrizeDataProvider.sortOptions
 import com.example.cta_app.ui.theme.CTAAppTheme
 
 @Composable
@@ -51,7 +52,7 @@ fun PrizeDetailsScreen(
     lazyListState: LazyListState = rememberLazyListState()
 ) {
     val prizeDetailsUiState by prizeDetailsViewModel.uiState.collectAsState()
-    var isSelected by remember { mutableStateOf(false) }
+    var selectedSortOption by remember { mutableStateOf("") }
 
     Column(modifier = modifier) {
         SearchBar(
@@ -68,8 +69,15 @@ fun PrizeDetailsScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = dimensionResource(R.dimen.padding_medium)),
-            isSelected = isSelected,
-            onSortClick = { isSelected = !isSelected }
+            selectedSortOption = selectedSortOption,
+            onSortClick = {
+                selectedSortOption = if (selectedSortOption != it) {
+                    it
+                } else {
+                    ""
+                }
+            },
+            sortOptions = sortOptions
         )
         PrizeDetailsList(
             prizeDetailsUiState = prizeDetailsUiState,
@@ -85,11 +93,13 @@ fun PrizeDetailsScreen(
 @Composable
 fun SortSection(
     modifier: Modifier = Modifier,
-    isSelected: Boolean,
-    onSortClick: () -> Unit
+    selectedSortOption: String,
+    onSortClick: (String) -> Unit,
+    sortOptions: List<String>
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -109,22 +119,27 @@ fun SortSection(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_extra_medium))
         ) {
-            FilterChip(
-                selected = isSelected,
-                onClick = onSortClick,
-                label = { Text(text = "A-Z") },
-                leadingIcon = if (isSelected) {
-                    {
-                        Icon(
-                            Icons.Default.Done,
-                            contentDescription = "Done Icon",
-                            modifier = Modifier.size(FilterChipDefaults.IconSize)
-                        )
+            sortOptions.forEach { option ->
+                val isSelected = selectedSortOption == option
+                FilterChip(
+                    selected = isSelected,
+                    onClick = {
+                        onSortClick(option)
+                    },
+                    label = { Text(text = option) },
+                    leadingIcon = if (isSelected) {
+                        {
+                            Icon(
+                                Icons.Outlined.Clear,
+                                contentDescription = "Clear Icon",
+                                modifier = Modifier.size(FilterChipDefaults.IconSize)
+                            )
+                        }
+                    } else {
+                        null
                     }
-                } else {
-                    null
-                }
-            )
+                )
+            }
         }
     }
 }

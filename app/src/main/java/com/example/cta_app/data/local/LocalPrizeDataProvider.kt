@@ -3,6 +3,11 @@ package com.example.cta_app.data.local
 import com.example.cta_app.data.Prize
 
 object LocalPrizeDataProvider {
+    val sortOptions = listOf(
+        "A-Z",
+        "Lowest price",
+        "Highest price"
+    )
     val prizes = listOf(
         Prize(
             mediaType = "Ilefx",
