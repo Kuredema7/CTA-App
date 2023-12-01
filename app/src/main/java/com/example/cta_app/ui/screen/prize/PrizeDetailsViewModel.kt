@@ -22,6 +22,42 @@ class PrizeDetailsViewModel : ViewModel() {
         }
     }
 
+    fun sortPrizeBy(sortOption: String) {
+        when (sortOption) {
+            _uiState.value.sortingOptions[0] -> {
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        prizesList = currentPrizeList.value.sortedBy { it.mediaType }
+                    )
+                }
+            }
+            _uiState.value.sortingOptions[1] -> {
+                sortByLowestPrice()
+            }
+            _uiState.value.sortingOptions[2] -> {
+                sortByHighestPrice()
+            }
+        }
+    }
+
+    private fun sortByHighestPrice() {
+        val sortedPrizeList = currentPrizeList.value.sortedByDescending { it.mediaPrice }
+        _uiState.update { currentState ->
+            currentState.copy(prizesList = sortedPrizeList)
+        }
+    }
+
+    private fun sortByLowestPrice() {
+        val sortedPrizeList = currentPrizeList.value.sortedBy { it.mediaPrice }
+        _uiState.update { currentState ->
+            currentState.copy(prizesList = sortedPrizeList)
+        }
+    }
+
+    fun resetSortedPrizeList() {
+        _uiState.value = PrizeDetailsUiState()
+    }
+
     fun filterByMediaType(text: String) {
         if (text.isNotEmpty()) {
             _uiState.update { currentState ->

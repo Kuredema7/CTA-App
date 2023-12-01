@@ -42,7 +42,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.cta_app.R
 import com.example.cta_app.data.Prize
-import com.example.cta_app.data.local.LocalPrizeDataProvider.sortOptions
 import com.example.cta_app.ui.theme.CTAAppTheme
 
 @Composable
@@ -70,14 +69,16 @@ fun PrizeDetailsScreen(
                 .fillMaxWidth()
                 .padding(horizontal = dimensionResource(R.dimen.padding_medium)),
             selectedSortOption = selectedSortOption,
-            onSortClick = {
-                selectedSortOption = if (selectedSortOption != it) {
-                    it
+            onSortClick = { sortOption ->
+                if (selectedSortOption != sortOption) {
+                    selectedSortOption = sortOption
+                    prizeDetailsViewModel.sortPrizeBy(sortOption)
                 } else {
-                    ""
+                    selectedSortOption = ""
+                    prizeDetailsViewModel.resetSortedPrizeList()
                 }
             },
-            sortOptions = sortOptions
+            prizeDetailsUiState = prizeDetailsUiState
         )
         PrizeDetailsList(
             prizeDetailsUiState = prizeDetailsUiState,
@@ -95,10 +96,10 @@ fun SortSection(
     modifier: Modifier = Modifier,
     selectedSortOption: String,
     onSortClick: (String) -> Unit,
-    sortOptions: List<String>
+    prizeDetailsUiState: PrizeDetailsUiState
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center
     ) {
         Row(
@@ -116,10 +117,11 @@ fun SortSection(
             )
         }
         Row(
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_extra_medium))
+            horizontalArrangement = Arrangement.SpaceAround
         ) {
-            sortOptions.forEach { option ->
+            prizeDetailsUiState.sortingOptions.forEach { option ->
                 val isSelected = selectedSortOption == option
                 FilterChip(
                     selected = isSelected,
