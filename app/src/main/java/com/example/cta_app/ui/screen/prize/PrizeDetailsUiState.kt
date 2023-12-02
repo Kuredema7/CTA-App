@@ -7,5 +7,6 @@ import com.example.cta_app.data.local.LocalPrizeDataProvider.sortOptions
 data class PrizeDetailsUiState(
     val searchText: String = "",
     val prizesList: List<Prize> = prizes,
-    val sortingOptions: List<String> = sortOptions
+    val sortingOptions: List<String> = sortOptions,
+    val selectSortOption: String = ""
 )

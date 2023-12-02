@@ -27,30 +27,37 @@ class PrizeDetailsViewModel : ViewModel() {
             _uiState.value.sortingOptions[0] -> {
                 _uiState.update { currentState ->
                     currentState.copy(
-                        prizesList = currentPrizeList.value.sortedBy { it.mediaType }
+                        prizesList = currentPrizeList.value.sortedBy { it.mediaType },
+                        selectSortOption = sortOption
                     )
                 }
             }
             _uiState.value.sortingOptions[1] -> {
-                sortByLowestPrice()
+                sortByLowestPrice(sortOption)
             }
             _uiState.value.sortingOptions[2] -> {
-                sortByHighestPrice()
+                sortByHighestPrice(sortOption)
             }
         }
     }
 
-    private fun sortByHighestPrice() {
+    private fun sortByHighestPrice(sortOption: String) {
         val sortedPrizeList = currentPrizeList.value.sortedByDescending { it.mediaPrice }
         _uiState.update { currentState ->
-            currentState.copy(prizesList = sortedPrizeList)
+            currentState.copy(
+                prizesList = sortedPrizeList,
+                selectSortOption = sortOption
+            )
         }
     }
 
-    private fun sortByLowestPrice() {
+    private fun sortByLowestPrice(sortOption: String) {
         val sortedPrizeList = currentPrizeList.value.sortedBy { it.mediaPrice }
         _uiState.update { currentState ->
-            currentState.copy(prizesList = sortedPrizeList)
+            currentState.copy(
+                prizesList = sortedPrizeList,
+                selectSortOption = sortOption
+            )
         }
     }
 
