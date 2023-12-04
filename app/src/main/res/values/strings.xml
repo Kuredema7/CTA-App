@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">CTA-App</string>
+    <string name="monthly_stats_screen">Monthly Stats</string>
+    <string name="monthly_entry_screen">Monthly Entry</string>
+    <string name="stats_screen">Stats</string>
+    <string name="prize_screen">Prize</string>
+    <string name="prize_details_screen">Prize Details</string>
+    <string name="prize_entry_screen">Prize Entry</string>
+    <string name="dashboard_screen">Dashboard</string>
     <string name="create_new_monthly_data">Create new \nMonthly Data</string>
     <string name="create_new_prize">Create new Prize</string>
     <string name="item_type">Item Type</string>
@@ -9,4 +16,10 @@
     <string name="item_quantity">0</string>
     <string name="item_description">Description</string>
     <string name="select_item">Select item</string>
+    <string name="media_type_label">Media Type</string>
+    <string name="media_price">$%.2f</string>
+    <string name="media_price_label">Price</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="search_media">Search media…</string>
+    <string name="monthly_entry_date">3 November 2023</string>
 </resources>
