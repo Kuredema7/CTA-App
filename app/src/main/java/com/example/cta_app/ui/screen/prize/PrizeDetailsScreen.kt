@@ -44,7 +44,6 @@ fun PrizeDetailsScreen(
     lazyListState: LazyListState = rememberLazyListState()
 ) {
     val prizeDetailsUiState by prizeDetailsViewModel.uiState.collectAsState()
-    //var selectedSortOption by remember { mutableStateOf("") }
 
     Column(modifier = modifier) {
         SearchBar(
@@ -69,7 +68,8 @@ fun PrizeDetailsScreen(
                     prizeDetailsViewModel.resetSortedPrizeList()
                 }
             },
-            sortingOptions = prizeDetailsUiState.sortingOptions
+            sortingOptions = prizeDetailsUiState.sortingOptions,
+            shape = MaterialTheme.shapes.extraLarge
         )
         PrizeDetailsList(
             prizeDetailsUiState = prizeDetailsUiState,

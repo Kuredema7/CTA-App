@@ -22,6 +22,13 @@ object LocalStatsDataProvider {
     private var customDate: String =
         LocalDate(2016, 1, 7).toString(DateTimeFormat.mediumDate())
 
+    val statsSortOptions = listOf(
+        "Today",
+        "Yesterday",
+        "This week",
+        "This month"
+    )
+
     val statsList = listOf(
         Stats(
             mediaType = "S6 viewFinity Samsung",
